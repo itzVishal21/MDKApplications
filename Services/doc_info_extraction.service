@@ -1,0 +1,6 @@
+{
+	"DestinationName": "doc-info-extraction",
+	"OfflineEnabled": false,
+	"SourceType": "Mobile",
+	"RestService": true
+}

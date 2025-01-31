@@ -1,0 +1,42 @@
+{
+	"Controls": [
+		{
+			"_Type": "Control.Type.Tabs",
+			"_Name": "Tabs0",
+			"Items": [
+				{
+					"_Type": "Control.Type.TabItem",
+					"Caption": "Documents",
+					"Image": "sap-icon://documents",
+					"PageToOpen": "/DocInfoExtraction/Pages/Documents/DocumentList.page",
+					"_Name": "TabItem0"
+				},
+				{
+					"_Type": "Control.Type.TabItem",
+					"Caption": "Schemas",
+					"Image": "sap-icon://document",
+					"PageToOpen": "/DocInfoExtraction/Pages/Schemas/SchemaList.page",
+					"_Name": "TabItem1"
+				},
+				{
+					"_Type": "Control.Type.TabItem",
+					"Caption": "Templates",
+					"Image": "sap-icon://document-text",
+					"PageToOpen": "/DocInfoExtraction/Pages/Templates/TamplateLists.page",
+					"_Name": "TabItem2"
+				}
+			],
+			"Position": "Top",
+			"TabStripType": "Normal",
+			"SwipeEnabled": true
+		}
+	],
+	"_Type": "Page",
+	"_Name": "MainTabPage",
+	"ActionBar": {
+		"Items": [],
+		"_Name": "ActionBar3",
+		"_Type": "Control.Type.ActionBar",
+		"Caption": "DIS"
+	}
+}

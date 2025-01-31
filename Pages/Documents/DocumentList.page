@@ -1,0 +1,23 @@
+{
+	"Controls": [
+		{
+			"FilterFeedbackBar": {
+				"ShowAllFilters": false,
+				"_Type": "Control.Type.FilterFeedbackBar"
+			},
+			"_Type": "Control.Type.SectionedTable",
+			"_Name": "SectionedTable0",
+			"Sections": [
+				"/DocInfoExtraction/Fragments/Documents.fragment"
+			]
+		}
+	],
+	"_Type": "Page",
+	"_Name": "DocumentList",
+	"ActionBar": {
+		"Items": [],
+		"_Name": "ActionBar2",
+		"_Type": "Control.Type.ActionBar",
+		"Caption": "Document Lists"
+	}
+}

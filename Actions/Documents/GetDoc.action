@@ -1,0 +1,18 @@
+{
+	"_Type": "Action.Type.RestService.SendRequest",
+	"ActionResult": {
+		"_Name": "GetDoc"
+	},
+	"ShowActivityIndicator": true,
+	"Target": {
+		"Service": "/DocInfoExtraction/Services/doc_info_extraction.service",
+		"Path": "/DocInfoExtraction/Rules/Documents/DocPath.js",
+		"RequestProperties": {
+			"Method": "GET",
+			"Body": {
+				"wfa": "afa"
+			},
+			"FetchCSRF": true
+		}
+	}
+}

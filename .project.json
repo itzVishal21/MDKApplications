@@ -1,0 +1,28 @@
+{
+	"Credential": "cf",
+	"CF": {
+		"Target": "https://api.cf.us10-001.hana.ondemand.com",
+		"Organization": "52598620-2349-4d5a-9759-47c1ee623cd9",
+		"Space": "58a38900-1d22-4039-8290-6d6a851df817"
+	},
+	"MobileService": {
+		"AdminAPI": "https://mobile-service-cockpit-api.cfapps.us10.hana.ondemand.com/cockpit/v1/org/52598620-2349-4d5a-9759-47c1ee623cd9/space/58a38900-1d22-4039-8290-6d6a851df817",
+		"AppId": "com.infy.dms",
+		"Destination": [
+			"com.infy.dms",
+			"doc-info-extraction",
+			"Token"
+		],
+		"Type": "standard"
+	},
+	"Onboarding": {
+		"Schema": "sapmobilesvcs",
+		"TimeZone": "UTC",
+		"URL": "sapmobilesvcs://?AppId=com.infy.dms&ClientId=60d7730d-ae25-4d98-9692-7e249c2906ed&ServerUrl=https://de90c000trial-dev-com-infy-dms.cfapps.us10-001.hana.ondemand.com&SapCloudPlatformEndpoint=https://de90c000trial-dev-com-infy-dms.cfapps.us10-001.hana.ondemand.com&AuthorizationEndpointUrl=https://de90c000trial-dev-com-infy-dms.cfapps.us10-001.hana.ondemand.com/oauth2/api/v1/authorize&RedirectUrl=https://de90c000trial-dev-com-infy-dms.cfapps.us10-001.hana.ondemand.com&TokenUrl=https://de90c000trial-dev-com-infy-dms.cfapps.us10-001.hana.ondemand.com/oauth2/api/v1/token&multiUser=false"
+	},
+	"Build": {
+		"SourceMap": true,
+		"TSTarget": "es6",
+		"WMF": true
+	}
+}

@@ -1,0 +1,183 @@
+{
+	"Controls": [
+		{
+			"FilterFeedbackBar": {
+				"ShowAllFilters": false,
+				"_Type": "Control.Type.FilterFeedbackBar"
+			},
+			"_Type": "Control.Type.SectionedTable",
+			"_Name": "SectionedTable0",
+			"Sections": [
+				{
+					"ObjectHeader": {
+						"Subhead": " Document Type: {documentType}",
+						"Footnote": "Upload Date: $(D,{created},'en-IN','',{format:'medium'})",
+						"Description": "Schema: {schemaName}",
+						"StatusText": "{status}",
+						"SubstatusText": "{schemaVersion}",
+						"DetailImageIsCircular": false,
+						"HeadlineText": "{fileName}",
+						"StatusPosition": "Stacked",
+						"StatusImagePosition": "Leading",
+						"SubstatusImagePosition": "Leading",
+						"Target": {
+							"Service": "/DocInfoExtraction/Services/doc_info_extraction.service",
+							"Path": "/DocInfoExtraction/Rules/Documents/DocuDetailsPath.js",
+							"RequestProperties": {
+								"Method": "GET",
+								"FetchCSRF": true
+							}
+						}
+					},
+					"_Type": "Section.Type.ObjectHeader",
+					"_Name": "SectionObjectHeader0",
+					"Visible": true
+				},
+				{
+					"Header": {
+						"_Type": "SectionCommon.Type.Header",
+						"_Name": "SectionCommonTypeHeader0",
+						"AccessoryType": "None",
+						"UseTopPadding": true,
+						"Caption": "Header Fields"
+					},
+					"Separators": {
+						"TopSectionSeparator": false,
+						"BottomSectionSeparator": true,
+						"HeaderSeparator": true,
+						"FooterSeparator": true,
+						"ControlSeparator": true
+					},
+					"_Type": "Section.Type.ObjectTable",
+					"Target": {
+						"Service": "/DocInfoExtraction/Services/doc_info_extraction.service",
+						"Path": "/DocInfoExtraction/Rules/Documents/DocuDetailsPath.js",
+						"OutputPath": "/extraction/headerFields",
+						"RequestProperties": {
+							"Method": "GET",
+							"FetchCSRF": true
+						}
+					},
+					"_Name": "SectionObjectTable0",
+					"Visible": true,
+					"EmptySection": {
+						"Caption": "N/A",
+						"FooterVisible": false
+					},
+					"ObjectCell": {
+						"ContextMenu": {
+							"Items": [],
+							"PerformFirstActionWithFullSwipe": true,
+							"LeadingItems": [],
+							"TrailingItems": [],
+							"_Type": "ObjectCell.Type.ContextMenu"
+						},
+						"Title": "{name}: {value}",
+						"Subhead": "Type: {type}",
+						"DisplayDescriptionInMobile": true,
+						"PreserveIconStackSpacing": false,
+						"AccessoryType": "None",
+						"Tags": [],
+						"AvatarStack": {
+							"Avatars": [],
+							"ImageIsCircular": true,
+							"ImageHasBorder": false
+						},
+						"AvatarGrid": {
+							"Avatars": [],
+							"ImageIsCircular": true
+						},
+						"_Type": "ObjectTable.Type.ObjectCell",
+						"Selected": false
+					},
+					"DataPaging": {
+						"ShowLoadingIndicator": true,
+						"PageSize": 50
+					},
+					"HighlightSelectedItem": false,
+					"Selection": {
+						"ExitOnLastDeselect": true,
+						"LongPressToEnable": "None",
+						"Mode": "None"
+					}
+				},
+				{
+					"Header": {
+						"_Type": "SectionCommon.Type.Header",
+						"_Name": "SectionCommonTypeHeader1",
+						"AccessoryType": "None",
+						"UseTopPadding": true,
+						"Caption": "Line Items Fields"
+					},
+					"Separators": {
+						"TopSectionSeparator": false,
+						"BottomSectionSeparator": true,
+						"HeaderSeparator": true,
+						"FooterSeparator": true,
+						"ControlSeparator": true
+					},
+					"_Type": "Section.Type.ObjectTable",
+					"Target": {
+						"Service": "/DocInfoExtraction/Services/doc_info_extraction.service",
+						"Path": "/DocInfoExtraction/Rules/Documents/DocuDetailsPath.js",
+						"OutputPath": "/extraction",
+						"RequestProperties": {
+							"Method": "GET",
+							"FetchCSRF": true
+						}
+					},
+					"_Name": "SectionObjectTable1",
+					"Visible": true,
+					"EmptySection": {
+						"Caption": "N/A",
+						"FooterVisible": false
+					},
+					"ObjectCell": {
+						"ContextMenu": {
+							"Items": [],
+							"PerformFirstActionWithFullSwipe": true,
+							"LeadingItems": [],
+							"TrailingItems": [],
+							"_Type": "ObjectCell.Type.ContextMenu"
+						},
+						"Title": "/DocInfoExtraction/Rules/Documents/GetLineItemTitle.js",
+						"Subhead": "/DocInfoExtraction/Rules/Documents/GetLineItemsSubHead.js",
+						"DisplayDescriptionInMobile": true,
+						"PreserveIconStackSpacing": false,
+						"AccessoryType": "None",
+						"Tags": [],
+						"AvatarStack": {
+							"Avatars": [],
+							"ImageIsCircular": true,
+							"ImageHasBorder": false
+						},
+						"AvatarGrid": {
+							"Avatars": [],
+							"ImageIsCircular": true
+						},
+						"_Type": "ObjectTable.Type.ObjectCell",
+						"Selected": false
+					},
+					"DataPaging": {
+						"ShowLoadingIndicator": true,
+						"PageSize": 50
+					},
+					"HighlightSelectedItem": false,
+					"Selection": {
+						"ExitOnLastDeselect": true,
+						"LongPressToEnable": "None",
+						"Mode": "None"
+					}
+				}
+			]
+		}
+	],
+	"_Type": "Page",
+	"_Name": "DocumentDetails",
+	"ActionBar": {
+		"Items": [],
+		"_Name": "ActionBar10",
+		"_Type": "Control.Type.ActionBar",
+		"Caption": "{fileName}"
+	}
+}

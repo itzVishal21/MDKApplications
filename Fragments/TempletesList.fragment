@@ -1,0 +1,66 @@
+{
+	"Separators": {
+		"TopSectionSeparator": false,
+		"BottomSectionSeparator": true,
+		"HeaderSeparator": true,
+		"FooterSeparator": true,
+		"ControlSeparator": true
+	},
+	"_Type": "Section.Type.ObjectTable",
+	"Target": {
+		"Service": "/DocInfoExtraction/Services/doc_info_extraction.service",
+		"Path": "/templates?clientId=default",
+		"OutputPath": "/results",
+		"RequestProperties": {
+			"Method": "GET",
+			"FetchCSRF": true
+		}
+	},
+	"Visible": true,
+	"EmptySection": {
+		"FooterVisible": false
+	},
+	"ObjectCell": {
+		"ContextMenu": {
+			"Items": [],
+			"PerformFirstActionWithFullSwipe": true,
+			"LeadingItems": [],
+			"TrailingItems": [],
+			"_Type": "ObjectCell.Type.ContextMenu"
+		},
+		"Title": "{name}",
+		"Subhead": "{documentType}",
+		"Footnote": "$(D,{creationDate},'en-IN','',{format:'medium'})",
+		"DisplayDescriptionInMobile": true,
+		"StatusText": "{status}",
+		"PreserveIconStackSpacing": false,
+		"AccessoryType": "None",
+		"Tags": [],
+		"AvatarStack": {
+			"Avatars": [
+				{
+					"Image": "sap-icon://customer",
+					"ImageText": ""
+				}
+			],
+			"ImageIsCircular": true,
+			"ImageHasBorder": false
+		},
+		"AvatarGrid": {
+			"Avatars": [],
+			"ImageIsCircular": true
+		},
+		"_Type": "ObjectTable.Type.ObjectCell",
+		"Selected": false
+	},
+	"DataPaging": {
+		"ShowLoadingIndicator": false,
+		"PageSize": 50
+	},
+	"HighlightSelectedItem": false,
+	"Selection": {
+		"ExitOnLastDeselect": true,
+		"LongPressToEnable": "None",
+		"Mode": "None"
+	}
+}

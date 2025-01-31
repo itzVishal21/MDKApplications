@@ -1,0 +1,10 @@
+{
+	"_Type": "Action.Type.OpenDocument",
+	"ActionResult": {
+		"_Name": "ViewDoc"
+	},
+	"ShowActivityIndicator": true,
+	"ActivityIndicatorText": "Loading...",
+	"Path": "jjkj",
+	"MimeType": "application/pdf"
+}

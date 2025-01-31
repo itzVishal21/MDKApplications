@@ -1,0 +1,77 @@
+{
+	"Separators": {
+		"TopSectionSeparator": false,
+		"BottomSectionSeparator": true,
+		"HeaderSeparator": true,
+		"FooterSeparator": true,
+		"ControlSeparator": false
+	},
+	"Header": {
+		"_Type": "SectionCommon.Type.Header",
+		"_Name": "SectionCommonTypeHeader0",
+		"AccessoryType": "None",
+		"UseTopPadding": true,
+		"Caption": "/DocInfoExtraction/Rules/Documents/TotalDocHeaderCount.js"
+	},
+	"_Type": "Section.Type.ObjectTable",
+	"Target": {
+		"Service": "/DocInfoExtraction/Services/doc_info_extraction.service",
+		"Path": "/document/jobs",
+		"OutputPath": "/results",
+		"RequestProperties": {
+			"Method": "GET",
+			"FetchCSRF": false
+		}
+	},
+	"Visible": true,
+	"EmptySection": {
+		"FooterVisible": false
+	},
+	"ObjectCell": {
+		"ContextMenu": {
+			"Items": [],
+			"PerformFirstActionWithFullSwipe": true,
+			"LeadingItems": [],
+			"TrailingItems": [],
+			"_Type": "ObjectCell.Type.ContextMenu"
+		},
+		"Title": "{fileName}",
+		"Subhead": "{documentType}",
+		"Footnote": "$(D,{finished},'en-IN','',{format:'medium'})",
+		"DisplayDescriptionInMobile": true,
+		"StatusText": "{status}",
+		"PreserveIconStackSpacing": false,
+		"AccessoryType": "DisclosureIndicator",
+		"Tags": [],
+		"AvatarStack": {
+			"Avatars": [
+				{
+					"Image": "sap-icon://customer",
+					"ImageText": ""
+				}
+			],
+			"ImageIsCircular": true,
+			"ImageHasBorder": false
+		},
+		"AvatarGrid": {
+			"Avatars": [],
+			"ImageIsCircular": true
+		},
+		"OnPress": "/DocInfoExtraction/Actions/Documents/NavToDetails.action",
+		"_Type": "ObjectTable.Type.ObjectCell",
+		"Selected": false
+	},
+	"Search": {
+		"Enabled": true
+	},
+	"DataPaging": {
+		"ShowLoadingIndicator": false,
+		"PageSize": 50
+	},
+	"HighlightSelectedItem": false,
+	"Selection": {
+		"ExitOnLastDeselect": true,
+		"LongPressToEnable": "None",
+		"Mode": "None"
+	}
+}

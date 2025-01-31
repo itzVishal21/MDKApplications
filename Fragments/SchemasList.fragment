@@ -1,0 +1,63 @@
+{
+	"Separators": {
+		"TopSectionSeparator": false,
+		"BottomSectionSeparator": true,
+		"HeaderSeparator": true,
+		"FooterSeparator": true,
+		"ControlSeparator": true
+	},
+	"_Type": "Section.Type.ObjectTable",
+	"Target": {
+		"Service": "/DocInfoExtraction/Services/doc_info_extraction.service",
+		"Path": "/schemas?clientId=default",
+		"OutputPath": "/schemas",
+		"RequestProperties": {
+			"Method": "GET",
+			"FetchCSRF": true
+		}
+	},
+	"Visible": true,
+	"EmptySection": {
+		"Caption": "N/A",
+		"FooterVisible": false
+	},
+	"ObjectCell": {
+		"ContextMenu": {
+			"Items": [],
+			"PerformFirstActionWithFullSwipe": true,
+			"LeadingItems": [],
+			"TrailingItems": [],
+			"_Type": "ObjectCell.Type.ContextMenu"
+		},
+		"Title": "{name}",
+		"Subhead": "{documentType}",
+		"Description": "{schemaDescription}",
+		"DisplayDescriptionInMobile": true,
+		"StatusText": "{state}",
+		"PreserveIconStackSpacing": false,
+		"AccessoryType": "DisclosureIndicator",
+		"Tags": [],
+		"AvatarStack": {
+			"Avatars": [
+				{
+					"Image": "sap-icon://customer",
+					"ImageText": ""
+				}
+			],
+			"ImageIsCircular": true,
+			"ImageHasBorder": false
+		},
+		"_Type": "ObjectTable.Type.ObjectCell",
+		"Selected": false
+	},
+	"DataPaging": {
+		"ShowLoadingIndicator": true,
+		"PageSize": 50
+	},
+	"HighlightSelectedItem": false,
+	"Selection": {
+		"ExitOnLastDeselect": true,
+		"LongPressToEnable": "None",
+		"Mode": "None"
+	}
+}

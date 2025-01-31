@@ -1,0 +1,73 @@
+{
+	"Controls": [
+		{
+			"Header": {
+				"Headline": "Infy-DIS",
+				"SubHeadline": "#Application/#AppData/UserId",
+				"Alignment": "Left",
+				"IconIsCircular": false,
+				"DisableIconText": false
+			},
+			"Sections": [
+				{
+					"_Name": "SideDrawerSection0",
+					"Items": [
+						{
+							"Title": "Home",
+							"Image": "sap-icon://home",
+							"PageToOpen": "/DocInfoExtraction/Pages/MainTabPage.page",
+							"_Name": "SideDrawerSection0Item0",
+							"Visible": true,
+							"TextAlignment": "Left"
+						}
+					],
+					"Visible": true,
+					"PreserveImageSpacing": true,
+					"SeparatorEnabled": true
+				},
+				{
+					"_Name": "SideDrawerSection1",
+					"Items": [
+						{
+							"Title": "Documents",
+							"Image": "sap-icon://documents",
+							"PageToOpen": "/DocInfoExtraction/Pages/Documents/DocumentList.page",
+							"_Name": "SideDrawerSection1Item0",
+							"Visible": true,
+							"TextAlignment": "Left"
+						},
+						{
+							"Title": "Schemas",
+							"Image": "sap-icon://write-new-document",
+							"_Name": "SideDrawerSection1Item1",
+							"Visible": true,
+							"TextAlignment": "Left"
+						},
+						{
+							"Title": "Templates",
+							"Image": "sap-icon://document-text",
+							"_Name": "SideDrawerSection1Item2",
+							"Visible": true,
+							"TextAlignment": "Left"
+						}
+					],
+					"Caption": "Quick Links",
+					"Visible": true,
+					"PreserveImageSpacing": true,
+					"SeparatorEnabled": true
+				}
+			],
+			"_Type": "Control.Type.SideDrawer",
+			"_Name": "SideDrawer0",
+			"AlwaysShowDrawerButton": false,
+			"ClearHistory": false
+		}
+	],
+	"_Type": "Page",
+	"_Name": "ApplicationLanding",
+	"ActionBar": {
+		"Items": [],
+		"_Name": "ActionBar3",
+		"_Type": "Control.Type.ActionBar"
+	}
+}

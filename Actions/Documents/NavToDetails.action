@@ -1,0 +1,8 @@
+{
+	"_Type": "Action.Type.Navigation",
+	"ActionResult": {
+		"_Name": "NavToDetails"
+	},
+	"ShowActivityIndicator": true,
+	"PageToOpen": "/DocInfoExtraction/Pages/Documents/DocumentDetails.page"
+}
