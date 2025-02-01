@@ -818,6 +818,40 @@ function UserLogSetting(clientAPI) {
 
 /***/ }),
 
+/***/ "./build.definitions/DocInfoExtraction/Rules/Main/GetDoneTempCount.js":
+/*!****************************************************************************!*\
+  !*** ./build.definitions/DocInfoExtraction/Rules/Main/GetDoneTempCount.js ***!
+  \****************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ GetDoneTempCount)
+/* harmony export */ });
+/* harmony import */ var _GetNoTemp__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./GetNoTemp */ "./build.definitions/DocInfoExtraction/Rules/Main/GetNoTemp.js");
+
+function GetDoneTempCount(clientAPI) {
+    try {
+        let totalTempCount = (0,_GetNoTemp__WEBPACK_IMPORTED_MODULE_0__["default"])(clientAPI);
+
+        let doneTempCount = 0;
+        let templates = clientAPI.binding.results;
+        for (var i = 0; i < totalTempCount; i++) {
+            if (templates[i].status == "READY") {
+                doneTempCount += 1;
+            }
+        }
+
+        return doneTempCount / totalTempCount;
+    } catch (error) {
+    }
+
+}
+
+
+/***/ }),
+
 /***/ "./build.definitions/DocInfoExtraction/Rules/Main/GetNoDoc.js":
 /*!********************************************************************!*\
   !*** ./build.definitions/DocInfoExtraction/Rules/Main/GetNoDoc.js ***!
@@ -882,6 +916,42 @@ function GetNoTemp(clientAPI) {
 
 /***/ }),
 
+/***/ "./build.definitions/DocInfoExtraction/Rules/Main/GetTotalDoneDocuments.js":
+/*!*********************************************************************************!*\
+  !*** ./build.definitions/DocInfoExtraction/Rules/Main/GetTotalDoneDocuments.js ***!
+  \*********************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ GetTotalDoneDocuments)
+/* harmony export */ });
+/* harmony import */ var _GetNoDoc__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./GetNoDoc */ "./build.definitions/DocInfoExtraction/Rules/Main/GetNoDoc.js");
+
+function GetTotalDoneDocuments(clientAPI) {
+    try {
+        let totalDocCount = (0,_GetNoDoc__WEBPACK_IMPORTED_MODULE_0__["default"])(clientAPI);
+
+        let doneDocCount = 0;
+        let documents = clientAPI.binding.results;
+        for (var i = 0; i < totalDocCount; i++) {
+            if (documents[i].status == "DONE") {
+                doneDocCount += 1;
+            }
+        }
+
+        return doneDocCount / totalDocCount;
+    } catch (error) {
+        alert("Error Occured in GetDoneDocuments.rule");
+    }
+
+
+}
+
+
+/***/ }),
+
 /***/ "./build.definitions/DocInfoExtraction/Rules/Main/OnDocumentPressed.js":
 /*!*****************************************************************************!*\
   !*** ./build.definitions/DocInfoExtraction/Rules/Main/OnDocumentPressed.js ***!
@@ -915,6 +985,26 @@ function OnDocumentPressed(clientAPI) {
 
 /***/ }),
 
+/***/ "./build.definitions/DocInfoExtraction/Rules/Main/OnPullDownMain.js":
+/*!**************************************************************************!*\
+  !*** ./build.definitions/DocInfoExtraction/Rules/Main/OnPullDownMain.js ***!
+  \**************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ OnPullDownMain)
+/* harmony export */ });
+
+function OnPullDownMain(clientAPI) {
+
+    return clientAPI.getPageProxy().getControl('SectionedTable0').redraw();
+}
+
+
+/***/ }),
+
 /***/ "./build.definitions/application-index.js":
 /*!************************************************!*\
   !*** ./build.definitions/application-index.js ***!
@@ -938,7 +1028,6 @@ let docinfoextraction_actions_closemodalpage_cancel_action = __webpack_require__
 let docinfoextraction_actions_closemodalpage_complete_action = __webpack_require__(/*! ./DocInfoExtraction/Actions/CloseModalPage_Complete.action */ "./build.definitions/DocInfoExtraction/Actions/CloseModalPage_Complete.action")
 let docinfoextraction_actions_closepage_action = __webpack_require__(/*! ./DocInfoExtraction/Actions/ClosePage.action */ "./build.definitions/DocInfoExtraction/Actions/ClosePage.action")
 let docinfoextraction_actions_documents_getdoc_action = __webpack_require__(/*! ./DocInfoExtraction/Actions/Documents/GetDoc.action */ "./build.definitions/DocInfoExtraction/Actions/Documents/GetDoc.action")
-let docinfoextraction_actions_documents_gettoken_action = __webpack_require__(/*! ./DocInfoExtraction/Actions/Documents/GetToken.action */ "./build.definitions/DocInfoExtraction/Actions/Documents/GetToken.action")
 let docinfoextraction_actions_documents_navtodetails_action = __webpack_require__(/*! ./DocInfoExtraction/Actions/Documents/NavToDetails.action */ "./build.definitions/DocInfoExtraction/Actions/Documents/NavToDetails.action")
 let docinfoextraction_actions_documents_viewdoc_action = __webpack_require__(/*! ./DocInfoExtraction/Actions/Documents/ViewDoc.action */ "./build.definitions/DocInfoExtraction/Actions/Documents/ViewDoc.action")
 let docinfoextraction_actions_genericbannermessage_action = __webpack_require__(/*! ./DocInfoExtraction/Actions/GenericBannerMessage.action */ "./build.definitions/DocInfoExtraction/Actions/GenericBannerMessage.action")
@@ -987,10 +1076,13 @@ let docinfoextraction_rules_logging_setuserloglevel_js = __webpack_require__(/*!
 let docinfoextraction_rules_logging_togglelogging_js = __webpack_require__(/*! ./DocInfoExtraction/Rules/Logging/ToggleLogging.js */ "./build.definitions/DocInfoExtraction/Rules/Logging/ToggleLogging.js")
 let docinfoextraction_rules_logging_tracecategories_js = __webpack_require__(/*! ./DocInfoExtraction/Rules/Logging/TraceCategories.js */ "./build.definitions/DocInfoExtraction/Rules/Logging/TraceCategories.js")
 let docinfoextraction_rules_logging_userlogsetting_js = __webpack_require__(/*! ./DocInfoExtraction/Rules/Logging/UserLogSetting.js */ "./build.definitions/DocInfoExtraction/Rules/Logging/UserLogSetting.js")
+let docinfoextraction_rules_main_getdonetempcount_js = __webpack_require__(/*! ./DocInfoExtraction/Rules/Main/GetDoneTempCount.js */ "./build.definitions/DocInfoExtraction/Rules/Main/GetDoneTempCount.js")
 let docinfoextraction_rules_main_getnodoc_js = __webpack_require__(/*! ./DocInfoExtraction/Rules/Main/GetNoDoc.js */ "./build.definitions/DocInfoExtraction/Rules/Main/GetNoDoc.js")
 let docinfoextraction_rules_main_getnoschema_js = __webpack_require__(/*! ./DocInfoExtraction/Rules/Main/GetNoSchema.js */ "./build.definitions/DocInfoExtraction/Rules/Main/GetNoSchema.js")
 let docinfoextraction_rules_main_getnotemp_js = __webpack_require__(/*! ./DocInfoExtraction/Rules/Main/GetNoTemp.js */ "./build.definitions/DocInfoExtraction/Rules/Main/GetNoTemp.js")
+let docinfoextraction_rules_main_gettotaldonedocuments_js = __webpack_require__(/*! ./DocInfoExtraction/Rules/Main/GetTotalDoneDocuments.js */ "./build.definitions/DocInfoExtraction/Rules/Main/GetTotalDoneDocuments.js")
 let docinfoextraction_rules_main_ondocumentpressed_js = __webpack_require__(/*! ./DocInfoExtraction/Rules/Main/OnDocumentPressed.js */ "./build.definitions/DocInfoExtraction/Rules/Main/OnDocumentPressed.js")
+let docinfoextraction_rules_main_onpulldownmain_js = __webpack_require__(/*! ./DocInfoExtraction/Rules/Main/OnPullDownMain.js */ "./build.definitions/DocInfoExtraction/Rules/Main/OnPullDownMain.js")
 let docinfoextraction_services_doc_info_extraction_service = __webpack_require__(/*! ./DocInfoExtraction/Services/doc_info_extraction.service */ "./build.definitions/DocInfoExtraction/Services/doc_info_extraction.service")
 let docinfoextraction_styles_styles_css = __webpack_require__(/*! ./DocInfoExtraction/Styles/Styles.css */ "./build.definitions/DocInfoExtraction/Styles/Styles.css")
 let docinfoextraction_styles_styles_less = __webpack_require__(/*! ./DocInfoExtraction/Styles/Styles.less */ "./build.definitions/DocInfoExtraction/Styles/Styles.less")
@@ -1018,7 +1110,6 @@ module.exports = {
 	docinfoextraction_actions_closemodalpage_complete_action : docinfoextraction_actions_closemodalpage_complete_action,
 	docinfoextraction_actions_closepage_action : docinfoextraction_actions_closepage_action,
 	docinfoextraction_actions_documents_getdoc_action : docinfoextraction_actions_documents_getdoc_action,
-	docinfoextraction_actions_documents_gettoken_action : docinfoextraction_actions_documents_gettoken_action,
 	docinfoextraction_actions_documents_navtodetails_action : docinfoextraction_actions_documents_navtodetails_action,
 	docinfoextraction_actions_documents_viewdoc_action : docinfoextraction_actions_documents_viewdoc_action,
 	docinfoextraction_actions_genericbannermessage_action : docinfoextraction_actions_genericbannermessage_action,
@@ -1067,10 +1158,13 @@ module.exports = {
 	docinfoextraction_rules_logging_togglelogging_js : docinfoextraction_rules_logging_togglelogging_js,
 	docinfoextraction_rules_logging_tracecategories_js : docinfoextraction_rules_logging_tracecategories_js,
 	docinfoextraction_rules_logging_userlogsetting_js : docinfoextraction_rules_logging_userlogsetting_js,
+	docinfoextraction_rules_main_getdonetempcount_js : docinfoextraction_rules_main_getdonetempcount_js,
 	docinfoextraction_rules_main_getnodoc_js : docinfoextraction_rules_main_getnodoc_js,
 	docinfoextraction_rules_main_getnoschema_js : docinfoextraction_rules_main_getnoschema_js,
 	docinfoextraction_rules_main_getnotemp_js : docinfoextraction_rules_main_getnotemp_js,
+	docinfoextraction_rules_main_gettotaldonedocuments_js : docinfoextraction_rules_main_gettotaldonedocuments_js,
 	docinfoextraction_rules_main_ondocumentpressed_js : docinfoextraction_rules_main_ondocumentpressed_js,
+	docinfoextraction_rules_main_onpulldownmain_js : docinfoextraction_rules_main_onpulldownmain_js,
 	docinfoextraction_services_doc_info_extraction_service : docinfoextraction_services_doc_info_extraction_service,
 	docinfoextraction_styles_styles_css : docinfoextraction_styles_styles_css,
 	docinfoextraction_styles_styles_less : docinfoextraction_styles_styles_less,
@@ -1353,7 +1447,7 @@ module.exports = {"Controls":[{"FilterFeedbackBar":{"ShowAllFilters":true,"_Type
   \***************************************************************************/
 /***/ ((module) => {
 
-module.exports = {"Controls":[{"Header":{"Headline":"Infy-DIS","SubHeadline":"#Application/#AppData/UserId","Alignment":"Left","IconIsCircular":false,"DisableIconText":false},"Sections":[{"_Name":"SideDrawerSection0","Items":[{"Title":"Home","Image":"sap-icon://home","PageToOpen":"/DocInfoExtraction/Pages/MainTabPage.page","_Name":"SideDrawerSection0Item0","Visible":true,"TextAlignment":"Left"}],"Visible":true,"PreserveImageSpacing":true,"SeparatorEnabled":true},{"_Name":"SideDrawerSection1","Items":[{"Title":"Documents","Image":"sap-icon://documents","PageToOpen":"/DocInfoExtraction/Pages/Documents/DocumentList.page","_Name":"SideDrawerSection1Item0","Visible":true,"TextAlignment":"Left"},{"Title":"Schemas","Image":"sap-icon://write-new-document","_Name":"SideDrawerSection1Item1","Visible":true,"TextAlignment":"Left"},{"Title":"Templates","Image":"sap-icon://document-text","_Name":"SideDrawerSection1Item2","Visible":true,"TextAlignment":"Left"}],"Caption":"Quick Links","Visible":true,"PreserveImageSpacing":true,"SeparatorEnabled":true}],"_Type":"Control.Type.SideDrawer","_Name":"SideDrawer0","AlwaysShowDrawerButton":false,"ClearHistory":false}],"_Type":"Page","_Name":"ApplicationLanding","ActionBar":{"Items":[],"_Name":"ActionBar3","_Type":"Control.Type.ActionBar"}}
+module.exports = {"Controls":[{"Header":{"Headline":"Infy-DIS","SubHeadline":"#Application/#AppData/UserId","Alignment":"Left","IconIsCircular":false,"DisableIconText":false},"Sections":[{"_Name":"SideDrawerSection0","Items":[{"Title":"Home","Image":"sap-icon://home","PageToOpen":"/DocInfoExtraction/Pages/Main.page","_Name":"SideDrawerSection0Item0","Visible":true,"TextAlignment":"Left"}],"Visible":true,"PreserveImageSpacing":true,"SeparatorEnabled":true},{"_Name":"SideDrawerSection1","Items":[{"Title":"Documents","Image":"sap-icon://documents","PageToOpen":"/DocInfoExtraction/Pages/Documents/DocumentList.page","_Name":"SideDrawerSection1Item0","Visible":true,"TextAlignment":"Left"},{"Title":"Schemas","Image":"sap-icon://write-new-document","PageToOpen":"/DocInfoExtraction/Pages/Schemas/SchemaList.page","_Name":"SideDrawerSection1Item1","Visible":true,"TextAlignment":"Left"},{"Title":"Templates","Image":"sap-icon://document-text","PageToOpen":"/DocInfoExtraction/Pages/Templates/TamplateLists.page","_Name":"SideDrawerSection1Item2","Visible":true,"TextAlignment":"Left"}],"Caption":"Quick Links","Visible":true,"PreserveImageSpacing":true,"SeparatorEnabled":true}],"_Type":"Control.Type.SideDrawer","_Name":"SideDrawer0","AlwaysShowDrawerButton":false,"ClearHistory":false}],"_Type":"Page","_Name":"ApplicationLanding","ActionBar":{"Items":[],"_Name":"ActionBar5","_Type":"Control.Type.ActionBar"}}
 
 /***/ }),
 
@@ -1383,7 +1477,7 @@ module.exports = {"Controls":[{"FilterFeedbackBar":{"ShowAllFilters":false,"_Typ
   \*************************************************************/
 /***/ ((module) => {
 
-module.exports = {"Controls":[{"FilterFeedbackBar":{"ShowAllFilters":false,"_Type":"Control.Type.FilterFeedbackBar"},"_Type":"Control.Type.SectionedTable","_Name":"SectionedTable0","Sections":[{"Separators":{"TopSectionSeparator":false,"BottomSectionSeparator":true,"HeaderSeparator":true,"FooterSeparator":true,"ControlSeparator":true},"KPIHeader":{"KPIItems":[{"Target":{"Service":"/DocInfoExtraction/Services/doc_info_extraction.service","Path":"/document/jobs","RequestProperties":{"Method":"GET","FetchCSRF":true}},"_Name":"KPIItem0","CaptionLabel":"Documents","MetricItems":[{"Value":"/DocInfoExtraction/Rules/Main/GetNoDoc.js","_Name":"KPIItem0MetricItem0"}],"ShowProgress":false},{"Target":{"Service":"/DocInfoExtraction/Services/doc_info_extraction.service","Path":"/schemas?clientId=default","RequestProperties":{"Method":"GET","FetchCSRF":true}},"_Name":"KPIItem1","CaptionLabel":"Schemas","MetricItems":[{"Value":"/DocInfoExtraction/Rules/Main/GetNoSchema.js","_Name":"KPIItem1MetricItem0"}],"OnPress":"/DocInfoExtraction/Rules/Main/OnDocumentPressed.js"},{"Target":{"Service":"/DocInfoExtraction/Services/doc_info_extraction.service","Path":"/templates?clientId=default","RequestProperties":{"Method":"GET","FetchCSRF":true}},"_Name":"KPIItem2","CaptionLabel":"Templates","MetricItems":[{"Value":"/DocInfoExtraction/Rules/Main/GetNoTemp.js","_Name":"KPIItem2MetricItem0"}]}]},"_Type":"Section.Type.KPIHeader","_Name":"SectionKPIHeader0","Visible":true}]}],"_Type":"Page","_Name":"Main","ActionBar":{"Items":[{"_Type":"Control.Type.ActionBarItem","_Name":"ActionBarItem0","Caption":"User Menu","Icon":"sap-icon://customer","Position":"Right","IsIconCircular":false,"Visible":true,"OnPress":"/DocInfoExtraction/Actions/Application/UserMenuPopover.action"}],"_Name":"ActionBar1","_Type":"Control.Type.ActionBar","Caption":"Main","PrefersLargeCaption":true}}
+module.exports = {"Controls":[{"FilterFeedbackBar":{"ShowAllFilters":false,"_Type":"Control.Type.FilterFeedbackBar"},"_Type":"Control.Type.SectionedTable","_Name":"SectionedTable0","Sections":[{"Separators":{"TopSectionSeparator":false,"BottomSectionSeparator":true,"HeaderSeparator":true,"FooterSeparator":true,"ControlSeparator":true},"KPIHeader":{"KPIItems":[{"Target":{"Service":"/DocInfoExtraction/Services/doc_info_extraction.service","Path":"/document/jobs","RequestProperties":{"Method":"GET","FetchCSRF":true}},"_Name":"KPIItem0","CaptionLabel":"Documents","MetricItems":[{"Value":"/DocInfoExtraction/Rules/Main/GetNoDoc.js","_Name":"KPIItem0MetricItem0"}],"ShowProgress":true,"Progress":"/DocInfoExtraction/Rules/Main/GetTotalDoneDocuments.js"},{"Target":{"Service":"/DocInfoExtraction/Services/doc_info_extraction.service","Path":"/templates?clientId=default","RequestProperties":{"Method":"GET","FetchCSRF":true}},"_Name":"KPIItem2","CaptionLabel":"Templates","MetricItems":[{"Value":"/DocInfoExtraction/Rules/Main/GetNoTemp.js","_Name":"KPIItem2MetricItem0"}],"ShowProgress":true,"Progress":"/DocInfoExtraction/Rules/Main/GetDoneTempCount.js"}]},"_Type":"Section.Type.KPIHeader","_Name":"SectionKPIHeader0","Visible":true},{"Separators":{"TopSectionSeparator":false,"BottomSectionSeparator":false,"HeaderSeparator":false,"FooterSeparator":false,"ControlSeparator":false},"_Type":"Section.Type.ObjectCardCollection","Target":{"Service":"/DocInfoExtraction/Services/doc_info_extraction.service","Path":"/document/jobs","OutputPath":"/results","RequestProperties":{"Method":"GET","FetchCSRF":true}},"_Name":"SectionObjectCardCollection0","Header":{"_Type":"SectionCommon.Type.Header","_Name":"SectionCommonTypeHeader0","AccessoryType":"None","UseTopPadding":false,"Caption":"Documents:"},"Visible":true,"EmptySection":{"Caption":"No Documents!","FooterVisible":false},"DataPaging":{"ShowLoadingIndicator":true,"LoadingIndicatorText":"Loading...","PageSize":50},"Card":{"Visible":true,"Title":"Type: {documentType}","Subhead":"{status}","Footnote":"$(D,{finished},'en-IN','',{format:'medium'})","DetailImage":"sap-icon://pdf-attachment","DetailImageIsCircular":false,"Description":"Bill Name: {fileName}","PrimaryAction":{"_Name":"Open","_Type":"ObjectCard.Type.ActionItem","OnPress":"/DocInfoExtraction/Actions/Documents/NavToDetails.action","Title":"Open","Visible":true},"SecondaryAction":{"_Type":"ObjectCard.Type.ActionItem","Title":"Delete","Visible":true},"_Type":"ObjectCardCollection.Type.Card"},"Layout":{"LayoutType":"Vertical"}}]}],"_Type":"Page","_Name":"Main","PullDown":{"OnPulledDown":"/DocInfoExtraction/Rules/Main/OnPullDownMain.js"},"ActionBar":{"Items":[{"_Type":"Control.Type.ActionBarItem","_Name":"ActionBarItem0","Caption":"User Menu","Icon":"sap-icon://customer","Position":"Right","IsIconCircular":false,"Visible":true,"OnPress":"/DocInfoExtraction/Actions/Application/UserMenuPopover.action"}],"_Name":"ActionBar1","_Type":"Control.Type.ActionBar","Caption":"Home","Subhead":"Hello","PrefersLargeCaption":true}}
 
 /***/ }),
 
@@ -1393,7 +1487,7 @@ module.exports = {"Controls":[{"FilterFeedbackBar":{"ShowAllFilters":false,"_Typ
   \********************************************************************/
 /***/ ((module) => {
 
-module.exports = {"Controls":[{"_Type":"Control.Type.Tabs","_Name":"Tabs0","Items":[{"_Type":"Control.Type.TabItem","Caption":"Documents","Image":"sap-icon://documents","PageToOpen":"/DocInfoExtraction/Pages/Documents/DocumentList.page","_Name":"TabItem0"},{"_Type":"Control.Type.TabItem","Caption":"Schemas","Image":"sap-icon://document","PageToOpen":"/DocInfoExtraction/Pages/Schemas/SchemaList.page","_Name":"TabItem1"},{"_Type":"Control.Type.TabItem","Caption":"Templates","Image":"sap-icon://document-text","PageToOpen":"/DocInfoExtraction/Pages/Templates/TamplateLists.page","_Name":"TabItem2"}],"Position":"Top","TabStripType":"Normal","SwipeEnabled":true}],"_Type":"Page","_Name":"MainTabPage","ActionBar":{"Items":[],"_Name":"ActionBar3","_Type":"Control.Type.ActionBar","Caption":"DIS"}}
+module.exports = {"Controls":[{"FilterFeedbackBar":{"ShowAllFilters":false,"_Type":"Control.Type.FilterFeedbackBar"},"_Type":"Control.Type.SectionedTable","_Name":"SectionedTable0","Sections":[{"Separators":{"TopSectionSeparator":false,"BottomSectionSeparator":true,"HeaderSeparator":true,"FooterSeparator":true,"ControlSeparator":true},"KPIHeader":{"KPIItems":[{"Target":{"Service":"/DocInfoExtraction/Services/doc_info_extraction.service","Path":"/document/jobs","RequestProperties":{"Method":"GET","FetchCSRF":true}},"_Name":"KPIItem0","CaptionLabel":"Documents","MetricItems":[{"Value":"/DocInfoExtraction/Rules/Main/GetNoDoc.js","_Name":"KPIItem0MetricItem0"}],"ShowProgress":false},{"Target":{"Service":"/DocInfoExtraction/Services/doc_info_extraction.service","Path":"/templates?clientId=default","RequestProperties":{"Method":"GET","FetchCSRF":true}},"_Name":"KPIItem2","CaptionLabel":"Templates","MetricItems":[{"Value":"/DocInfoExtraction/Rules/Main/GetNoTemp.js","_Name":"KPIItem2MetricItem0"}]},{"Target":{"Service":"/DocInfoExtraction/Services/doc_info_extraction.service","Path":"/schemas?clientId=default","RequestProperties":{"Method":"GET","FetchCSRF":true}},"_Name":"KPIItem1","CaptionLabel":"Schemas","MetricItems":[{"Value":"/DocInfoExtraction/Rules/Main/GetNoSchema.js","_Name":"KPIItem1MetricItem0"}],"OnPress":"/DocInfoExtraction/Rules/Main/OnDocumentPressed.js"}]},"_Type":"Section.Type.KPIHeader","_Name":"SectionKPIHeader0","Visible":true}]},{"_Type":"Control.Type.Tabs","_Name":"Tabs0","Items":[{"_Type":"Control.Type.TabItem","Caption":"Documents","Image":"sap-icon://documents","PageToOpen":"/DocInfoExtraction/Pages/Documents/DocumentList.page","_Name":"TabItem0"},{"_Type":"Control.Type.TabItem","Caption":"Schemas","Image":"sap-icon://document","PageToOpen":"/DocInfoExtraction/Pages/Schemas/SchemaList.page","_Name":"TabItem1"},{"_Type":"Control.Type.TabItem","Caption":"Templates","Image":"sap-icon://document-text","PageToOpen":"/DocInfoExtraction/Pages/Templates/TamplateLists.page","_Name":"TabItem2"}],"Position":"Top","TabStripType":"Normal","SwipeEnabled":true}],"_Type":"Page","_Name":"MainTabPage","ActionBar":{"Items":[{"_Type":"Control.Type.ActionBarItem","_Name":"ActionBarItem0","Caption":"User Menu","Icon":"sap-icon://customer","Position":"Right","IsIconCircular":false,"Visible":true,"OnPress":"/DocInfoExtraction/Actions/Application/UserMenuPopover.action"}],"_Name":"ActionBar4","_Type":"Control.Type.ActionBar","Caption":"DIS","CaptionAlignment":"Center"}}
 
 /***/ }),
 
@@ -1403,7 +1497,7 @@ module.exports = {"Controls":[{"_Type":"Control.Type.Tabs","_Name":"Tabs0","Item
   \***************************************************************************/
 /***/ ((module) => {
 
-module.exports = {"Controls":[{"_Type":"Control.Type.SectionedTable","_Name":"SectionedTable0","Sections":[{"Separators":{"TopSectionSeparator":false,"BottomSectionSeparator":true,"HeaderSeparator":true,"FooterSeparator":true,"ControlSeparator":true},"_Type":"Section.Type.ObjectTable","Target":{"Service":"/DocInfoExtraction/Services/doc_info_extraction.service","Path":"/schemas?clientId=default","OutputPath":"/schemas","RequestProperties":{"Method":"GET","FetchCSRF":true}},"Visible":true,"EmptySection":{"Caption":"N/A","FooterVisible":false},"ObjectCell":{"ContextMenu":{"Items":[],"PerformFirstActionWithFullSwipe":true,"LeadingItems":[],"TrailingItems":[],"_Type":"ObjectCell.Type.ContextMenu"},"Title":"{name}","Subhead":"{documentType}","Description":"{schemaDescription}","DisplayDescriptionInMobile":true,"StatusText":"{state}","PreserveIconStackSpacing":false,"AccessoryType":"DisclosureIndicator","Tags":[],"AvatarStack":{"Avatars":[{"Image":"sap-icon://customer","ImageText":""}],"ImageIsCircular":true,"ImageHasBorder":false},"_Type":"ObjectTable.Type.ObjectCell","Selected":false},"DataPaging":{"ShowLoadingIndicator":true,"PageSize":50},"HighlightSelectedItem":false,"Selection":{"ExitOnLastDeselect":true,"LongPressToEnable":"None","Mode":"None"}}],"FilterFeedbackBar":{"ShowAllFilters":false,"_Type":"Control.Type.FilterFeedbackBar"}}],"_Type":"Page","_Name":"SchemaList","ActionBar":{"Items":[],"_Name":"ActionBar1","_Type":"Control.Type.ActionBar","Caption":"Schema Lists"}}
+module.exports = {"Controls":[{"_Type":"Control.Type.SectionedTable","_Name":"SectionedTable0","Sections":[{"Separators":{"TopSectionSeparator":false,"BottomSectionSeparator":true,"HeaderSeparator":true,"FooterSeparator":true,"ControlSeparator":true},"_Type":"Section.Type.ObjectTable","Target":{"Service":"/DocInfoExtraction/Services/doc_info_extraction.service","Path":"/schemas?clientId=default","OutputPath":"/schemas","RequestProperties":{"Method":"GET","FetchCSRF":true}},"Visible":true,"EmptySection":{"Caption":"N/A","FooterVisible":false},"ObjectCell":{"ContextMenu":{"Items":[],"PerformFirstActionWithFullSwipe":true,"LeadingItems":[],"TrailingItems":[],"_Type":"ObjectCell.Type.ContextMenu"},"Title":"{name}","Subhead":"{documentType}","Description":"{schemaDescription}","DisplayDescriptionInMobile":true,"StatusText":"{state}","PreserveIconStackSpacing":false,"AccessoryType":"DisclosureIndicator","Tags":[],"AvatarStack":{"Avatars":[{"Image":"sap-icon://customer","ImageText":""}],"ImageIsCircular":true,"ImageHasBorder":false},"AvatarGrid":{"ImageIsCircular":true},"_Type":"ObjectTable.Type.ObjectCell","Selected":false},"Search":{"AdditionalProperties":"{name}","Enabled":true,"Placeholder":"Search Schema","Options":{"CaseSensitive":false,"NumberSearch":{"Enabled":false},"UseSearchOverFilter":{"Enabled":false}}},"DataPaging":{"ShowLoadingIndicator":true,"LoadingIndicatorText":"Loading...","PageSize":50},"HighlightSelectedItem":false,"Selection":{"LongPressToEnable":"None","ExitOnLastDeselect":true}}],"FilterFeedbackBar":{"ShowAllFilters":false,"_Type":"Control.Type.FilterFeedbackBar"}}],"_Type":"Page","_Name":"SchemaList","ActionBar":{"Items":[],"_Name":"ActionBar1","_Type":"Control.Type.ActionBar","Caption":"Schema Lists"}}
 
 /***/ }),
 
@@ -1587,16 +1681,6 @@ module.exports = {"_Type":"Action.Type.RestService.SendRequest","ActionResult":{
 
 /***/ }),
 
-/***/ "./build.definitions/DocInfoExtraction/Actions/Documents/GetToken.action":
-/*!*******************************************************************************!*\
-  !*** ./build.definitions/DocInfoExtraction/Actions/Documents/GetToken.action ***!
-  \*******************************************************************************/
-/***/ ((module) => {
-
-module.exports = {"_Type":"Action.Type.RestService.SendRequest","ActionResult":{"_Name":"GetToken"},"ShowActivityIndicator":true,"Target":{"Service":"/DocInfoExtraction/Services/TokenSrv.service","Path":"/","RequestProperties":{"Method":"POST","Headers":{"Content-Type":"application/x-www-form-urlencoded"},"Body":{"grant_type":"client_credentials","client_id":"sb-c449dcc6-b937-49c1-96ca-2a5aa97cedef!b371911|dox-xsuaa-std-trial!b10844","client_secret":"d80a74f9-6663-4ce0-a7c4-c24f7581dbf9$oultjgETDSk8g-w8g-V6sWPqLH7h-HbFqKjNeoc-kTo=","new_token":"true"},"FetchCSRF":false}}}
-
-/***/ }),
-
 /***/ "./build.definitions/DocInfoExtraction/Actions/Documents/NavToDetails.action":
 /*!***********************************************************************************!*\
   !*** ./build.definitions/DocInfoExtraction/Actions/Documents/NavToDetails.action ***!
@@ -1713,7 +1797,7 @@ module.exports = {"Separators":{"TopSectionSeparator":false,"BottomSectionSepara
   \****************************************************************************/
 /***/ ((module) => {
 
-module.exports = {"Separators":{"TopSectionSeparator":false,"BottomSectionSeparator":true,"HeaderSeparator":true,"FooterSeparator":true,"ControlSeparator":true},"_Type":"Section.Type.ObjectTable","Target":{"Service":"/DocInfoExtraction/Services/doc_info_extraction.service","Path":"/schemas?clientId=default","OutputPath":"/schemas","RequestProperties":{"Method":"GET","FetchCSRF":true}},"Visible":true,"EmptySection":{"Caption":"N/A","FooterVisible":false},"ObjectCell":{"ContextMenu":{"Items":[],"PerformFirstActionWithFullSwipe":true,"LeadingItems":[],"TrailingItems":[],"_Type":"ObjectCell.Type.ContextMenu"},"Title":"{name}","Subhead":"{documentType}","Description":"{schemaDescription}","DisplayDescriptionInMobile":true,"StatusText":"{state}","PreserveIconStackSpacing":false,"AccessoryType":"DisclosureIndicator","Tags":[],"AvatarStack":{"Avatars":[{"Image":"sap-icon://customer","ImageText":""}],"ImageIsCircular":true,"ImageHasBorder":false},"_Type":"ObjectTable.Type.ObjectCell","Selected":false},"DataPaging":{"ShowLoadingIndicator":true,"PageSize":50},"HighlightSelectedItem":false,"Selection":{"ExitOnLastDeselect":true,"LongPressToEnable":"None","Mode":"None"}}
+module.exports = {"Separators":{"TopSectionSeparator":false,"BottomSectionSeparator":true,"HeaderSeparator":true,"FooterSeparator":true,"ControlSeparator":true},"_Type":"Section.Type.ObjectTable","Target":{"Service":"/DocInfoExtraction/Services/doc_info_extraction.service","Path":"/schemas?clientId=default","OutputPath":"/schemas","RequestProperties":{"Method":"GET","FetchCSRF":true}},"Visible":true,"EmptySection":{"Caption":"N/A","FooterVisible":false},"ObjectCell":{"ContextMenu":{"Items":[],"PerformFirstActionWithFullSwipe":true,"LeadingItems":[],"TrailingItems":[],"_Type":"ObjectCell.Type.ContextMenu"},"Title":"{name}","Subhead":"{documentType}","Description":"{schemaDescription}","DisplayDescriptionInMobile":true,"StatusText":"{state}","PreserveIconStackSpacing":false,"AccessoryType":"DisclosureIndicator","Tags":[],"AvatarStack":{"Avatars":[{"Image":"sap-icon://customer","ImageText":""}],"ImageIsCircular":true,"ImageHasBorder":false},"AvatarGrid":{"ImageIsCircular":true},"_Type":"ObjectTable.Type.ObjectCell","Selected":false},"Search":{"AdditionalProperties":"{name}","Enabled":true,"Placeholder":"Search Schema","Options":{"CaseSensitive":false,"NumberSearch":{"Enabled":false},"UseSearchOverFilter":{"Enabled":false}}},"DataPaging":{"ShowLoadingIndicator":true,"LoadingIndicatorText":"Loading...","PageSize":50},"HighlightSelectedItem":false,"Selection":{"LongPressToEnable":"None","ExitOnLastDeselect":true}}
 
 /***/ }),
 

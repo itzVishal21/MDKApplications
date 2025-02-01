@@ -15,7 +15,7 @@
 						{
 							"Title": "Home",
 							"Image": "sap-icon://home",
-							"PageToOpen": "/DocInfoExtraction/Pages/MainTabPage.page",
+							"PageToOpen": "/DocInfoExtraction/Pages/Main.page",
 							"_Name": "SideDrawerSection0Item0",
 							"Visible": true,
 							"TextAlignment": "Left"
@@ -39,6 +39,7 @@
 						{
 							"Title": "Schemas",
 							"Image": "sap-icon://write-new-document",
+							"PageToOpen": "/DocInfoExtraction/Pages/Schemas/SchemaList.page",
 							"_Name": "SideDrawerSection1Item1",
 							"Visible": true,
 							"TextAlignment": "Left"
@@ -46,6 +47,7 @@
 						{
 							"Title": "Templates",
 							"Image": "sap-icon://document-text",
+							"PageToOpen": "/DocInfoExtraction/Pages/Templates/TamplateLists.page",
 							"_Name": "SideDrawerSection1Item2",
 							"Visible": true,
 							"TextAlignment": "Left"
@@ -67,7 +69,7 @@
 	"_Name": "ApplicationLanding",
 	"ActionBar": {
 		"Items": [],
-		"_Name": "ActionBar3",
+		"_Name": "ActionBar5",
 		"_Type": "Control.Type.ActionBar"
 	}
 }

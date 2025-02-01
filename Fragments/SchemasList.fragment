@@ -47,17 +47,34 @@
 			"ImageIsCircular": true,
 			"ImageHasBorder": false
 		},
+		"AvatarGrid": {
+			"ImageIsCircular": true
+		},
 		"_Type": "ObjectTable.Type.ObjectCell",
 		"Selected": false
 	},
+	"Search": {
+		"AdditionalProperties": "{name}",
+		"Enabled": true,
+		"Placeholder": "Search Schema",
+		"Options": {
+			"CaseSensitive": false,
+			"NumberSearch": {
+				"Enabled": false
+			},
+			"UseSearchOverFilter": {
+				"Enabled": false
+			}
+		}
+	},
 	"DataPaging": {
 		"ShowLoadingIndicator": true,
+		"LoadingIndicatorText": "Loading...",
 		"PageSize": 50
 	},
 	"HighlightSelectedItem": false,
 	"Selection": {
-		"ExitOnLastDeselect": true,
 		"LongPressToEnable": "None",
-		"Mode": "None"
+		"ExitOnLastDeselect": true
 	}
 }

@@ -35,26 +35,8 @@
 										"_Name": "KPIItem0MetricItem0"
 									}
 								],
-								"ShowProgress": false
-							},
-							{
-								"Target": {
-									"Service": "/DocInfoExtraction/Services/doc_info_extraction.service",
-									"Path": "/schemas?clientId=default",
-									"RequestProperties": {
-										"Method": "GET",
-										"FetchCSRF": true
-									}
-								},
-								"_Name": "KPIItem1",
-								"CaptionLabel": "Schemas",
-								"MetricItems": [
-									{
-										"Value": "/DocInfoExtraction/Rules/Main/GetNoSchema.js",
-										"_Name": "KPIItem1MetricItem0"
-									}
-								],
-								"OnPress": "/DocInfoExtraction/Rules/Main/OnDocumentPressed.js"
+								"ShowProgress": true,
+								"Progress": "/DocInfoExtraction/Rules/Main/GetTotalDoneDocuments.js"
 							},
 							{
 								"Target": {
@@ -72,19 +54,86 @@
 										"Value": "/DocInfoExtraction/Rules/Main/GetNoTemp.js",
 										"_Name": "KPIItem2MetricItem0"
 									}
-								]
+								],
+								"ShowProgress": true,
+								"Progress": "/DocInfoExtraction/Rules/Main/GetDoneTempCount.js"
 							}
 						]
 					},
 					"_Type": "Section.Type.KPIHeader",
 					"_Name": "SectionKPIHeader0",
 					"Visible": true
+				},
+				{
+					"Separators": {
+						"TopSectionSeparator": false,
+						"BottomSectionSeparator": false,
+						"HeaderSeparator": false,
+						"FooterSeparator": false,
+						"ControlSeparator": false
+					},
+					"_Type": "Section.Type.ObjectCardCollection",
+					"Target": {
+						"Service": "/DocInfoExtraction/Services/doc_info_extraction.service",
+						"Path": "/document/jobs",
+						"OutputPath": "/results",
+						"RequestProperties": {
+							"Method": "GET",
+							"FetchCSRF": true
+						}
+					},
+					"_Name": "SectionObjectCardCollection0",
+					"Header": {
+						"_Type": "SectionCommon.Type.Header",
+						"_Name": "SectionCommonTypeHeader0",
+						"AccessoryType": "None",
+						"UseTopPadding": false,
+						"Caption": "Documents:"
+					},
+					"Visible": true,
+					"EmptySection": {
+						"Caption": "No Documents!",
+						"FooterVisible": false
+					},
+					"DataPaging": {
+						"ShowLoadingIndicator": true,
+						"LoadingIndicatorText": "Loading...",
+						"PageSize": 50
+					},
+					"Card": {
+						"Visible": true,
+						"Title": "Type: {documentType}",
+						"Subhead": "{status}",
+						"Footnote": "$(D,{finished},'en-IN','',{format:'medium'})",
+						"DetailImage": "sap-icon://pdf-attachment",
+						"DetailImageIsCircular": false,
+						"Description": "Bill Name: {fileName}",
+						"PrimaryAction": {
+							"_Name": "Open",
+							"_Type": "ObjectCard.Type.ActionItem",
+							"OnPress": "/DocInfoExtraction/Actions/Documents/NavToDetails.action",
+							"Title": "Open",
+							"Visible": true
+						},
+						"SecondaryAction": {
+							"_Type": "ObjectCard.Type.ActionItem",
+							"Title": "Delete",
+							"Visible": true
+						},
+						"_Type": "ObjectCardCollection.Type.Card"
+					},
+					"Layout": {
+						"LayoutType": "Vertical"
+					}
 				}
 			]
 		}
 	],
 	"_Type": "Page",
 	"_Name": "Main",
+	"PullDown": {
+		"OnPulledDown": "/DocInfoExtraction/Rules/Main/OnPullDownMain.js"
+	},
 	"ActionBar": {
 		"Items": [
 			{
@@ -100,7 +149,8 @@
 		],
 		"_Name": "ActionBar1",
 		"_Type": "Control.Type.ActionBar",
-		"Caption": "Main",
+		"Caption": "Home",
+		"Subhead": "Hello",
 		"PrefersLargeCaption": true
 	}
 }
