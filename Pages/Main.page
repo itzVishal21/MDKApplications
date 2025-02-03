@@ -117,6 +117,7 @@
 						},
 						"SecondaryAction": {
 							"_Type": "ObjectCard.Type.ActionItem",
+							"OnPress": "/DocInfoExtraction/Rules/Main/OnDeletePressed.js",
 							"Title": "Delete",
 							"Visible": true
 						},
@@ -129,11 +130,11 @@
 			]
 		}
 	],
-	"_Type": "Page",
-	"_Name": "Main",
 	"PullDown": {
 		"OnPulledDown": "/DocInfoExtraction/Rules/Main/OnPullDownMain.js"
 	},
+	"_Type": "Page",
+	"_Name": "Main",
 	"ActionBar": {
 		"Items": [
 			{

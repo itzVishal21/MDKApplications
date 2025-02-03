@@ -1,0 +1,19 @@
+{
+	"_Type": "Action.Type.RestService.SendRequest",
+	"ActionResult": {
+		"_Name": "DeleteDoc"
+	},
+	"ShowActivityIndicator": true,
+	"ActivityIndicatorText": "Deleting Doc",
+	"Target": {
+		"Service": "/DocInfoExtraction/Services/doc_info_extraction.service",
+		"Path": "/document-information-extraction/v1/document/jobs",
+		"RequestProperties": {
+			"Method": "DELETE",
+			"Body": {
+				"payload": "{id}"
+			},
+			"FetchCSRF": false
+		}
+	}
+}

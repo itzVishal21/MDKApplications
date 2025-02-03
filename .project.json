@@ -3,7 +3,29 @@
 	"CF": {
 		"Target": "https://api.cf.us10-001.hana.ondemand.com",
 		"Organization": "52598620-2349-4d5a-9759-47c1ee623cd9",
-		"Space": "58a38900-1d22-4039-8290-6d6a851df817"
+		"Space": "58a38900-1d22-4039-8290-6d6a851df817",
+		"Deploy": {
+			"Destination": [
+				{
+					"CF": "doc-info-extraction",
+					"MDK": "doc-info-extraction",
+					"URL": ""
+				},
+				{
+					"CF": "doc-info-extraction",
+					"MDK": "doc-info-extraction",
+					"URL": ""
+				}
+			],
+			"Name": "ns.DocInfoExtraction",
+			"Version": "1.0.0",
+			"AppRouter": "standalone",
+			"WebClient": {
+				"Runtime": "production",
+				"URL": "https://mdk-webclient-runtime.cfapps.us10.hana.ondemand.com/runtime/"
+			},
+			"Auth": true
+		}
 	},
 	"MobileService": {
 		"AdminAPI": "https://mobile-service-cockpit-api.cfapps.us10.hana.ondemand.com/cockpit/v1/org/52598620-2349-4d5a-9759-47c1ee623cd9/space/58a38900-1d22-4039-8290-6d6a851df817",

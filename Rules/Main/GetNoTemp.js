@@ -1,6 +1,10 @@
 
 export default function GetNoTemp(clientAPI) {
-    
-    let tempCount = clientAPI.binding.results.length;
-    return tempCount
+    if (clientAPI.binding.results.length) {
+        let tempCount = clientAPI.binding.results.length;
+        return tempCount
+    }else{
+        return 0;
+    }
+
 }
