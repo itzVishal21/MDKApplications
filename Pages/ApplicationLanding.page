@@ -57,6 +57,47 @@
 					"Visible": true,
 					"PreserveImageSpacing": true,
 					"SeparatorEnabled": true
+				},
+				{
+					"_Name": "SideDrawerSection2",
+					"Items": [
+						{
+							"Title": "Support",
+							"Image": "sap-icon://headset",
+							"OnPress": "/DocInfoExtraction/Actions/Application/NavToSupport.action",
+							"_Name": "SideDrawerSection2Item0",
+							"Visible": true,
+							"TextAlignment": "Left"
+						},
+						{
+							"Title": "Check for Updates",
+							"Image": "sap-icon://refresh",
+							"OnPress": "/DocInfoExtraction/Actions/Application/AppUpdateProgressBanner.action",
+							"_Name": "SideDrawerSection2Item1",
+							"Visible": true,
+							"TextAlignment": "Left"
+						},
+						{
+							"Title": "About",
+							"Image": "sap-icon://hint",
+							"OnPress": "/DocInfoExtraction/Actions/Application/NavToAbout.action",
+							"_Name": "SideDrawerSection2Item2",
+							"Visible": true,
+							"TextAlignment": "Left"
+						},
+						{
+							"Title": "Reset",
+							"Image": "sap-icon://reset",
+							"OnPress": "/DocInfoExtraction/Actions/Application/ResetMessage.action",
+							"_Name": "SideDrawerSection2Item3",
+							"Visible": true,
+							"TextAlignment": "Left"
+						}
+					],
+					"Caption": "Actions",
+					"Visible": true,
+					"PreserveImageSpacing": true,
+					"SeparatorEnabled": true
 				}
 			],
 			"_Type": "Control.Type.SideDrawer",
@@ -69,7 +110,7 @@
 	"_Name": "ApplicationLanding",
 	"ActionBar": {
 		"Items": [],
-		"_Name": "ActionBar5",
+		"_Name": "ActionBar8",
 		"_Type": "Control.Type.ActionBar"
 	}
 }

@@ -294,6 +294,92 @@ function Message(clientAPI, message) {
 
 /***/ }),
 
+/***/ "./build.definitions/DocInfoExtraction/Rules/Common/Navigation.js":
+/*!************************************************************************!*\
+  !*** ./build.definitions/DocInfoExtraction/Rules/Common/Navigation.js ***!
+  \************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Navigation)
+/* harmony export */ });
+
+function Navigation(clientAPI, pageToOpen,transition) {
+    if(transition){
+        return clientAPI.executeAction({
+            "Name": "/DocInfoExtraction/Actions/GenericNavigation.action",
+            "Properties": {
+                "PageToOpen": pageToOpen,
+                "Transition": transition
+            }
+        });
+    }
+    else{
+        return clientAPI.executeAction({
+            "Name": "/DocInfoExtraction/Actions/GenericNavigation.action",
+            "Properties": {
+                "PageToOpen": pageToOpen
+            }
+        });
+    }
+   
+}
+
+
+/***/ }),
+
+/***/ "./build.definitions/DocInfoExtraction/Rules/Documents/DocTypes.js":
+/*!*************************************************************************!*\
+  !*** ./build.definitions/DocInfoExtraction/Rules/Documents/DocTypes.js ***!
+  \*************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ DocTypes)
+/* harmony export */ });
+
+async function DocTypes(clientAPI) {
+    try {
+        let selectedDocType = clientAPI.getValue()[0].DisplayValue;
+        let clientdata = clientAPI.evaluateTargetPathForAPI("#Page:Main").getClientData();
+        let validation = selectedDocType.split(' ');
+        var DocType = '';
+        for (var i = 0; i < validation.length; i++) {
+            if (i == 0) {
+                DocType += validation[i].toLowerCase()
+            }
+            else {
+                DocType += validation[i]
+            }
+    
+        }
+    
+        let data = await clientdata.SchemaDetails
+        
+        const filteredData = data.filter(item => item.documentType === DocType);
+        let schemaName = [];
+        for (var i = 0; i < filteredData.length; i++) {
+            schemaName.push(filteredData[i].name);
+        }
+        let ctrl = clientAPI.evaluateTargetPath("#Page:DocUploadTab/#Control:SchemaNameListPicker");
+        ctrl.setPickerItems(schemaName)
+        ctrl.setValue('')
+        ctrl.redraw()
+    } catch (error) {
+        alert('In'+error)
+    }
+   
+   
+
+}
+
+
+/***/ }),
+
 /***/ "./build.definitions/DocInfoExtraction/Rules/Documents/DocuDetailsPath.js":
 /*!********************************************************************************!*\
   !*** ./build.definitions/DocInfoExtraction/Rules/Documents/DocuDetailsPath.js ***!
@@ -543,6 +629,223 @@ function GetOAuthToken(clientAPI) {
 
 /***/ }),
 
+/***/ "./build.definitions/DocInfoExtraction/Rules/Documents/GetSchemaName.js":
+/*!******************************************************************************!*\
+  !*** ./build.definitions/DocInfoExtraction/Rules/Documents/GetSchemaName.js ***!
+  \******************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ GetSchemaName)
+/* harmony export */ });
+/* harmony import */ var _GetOAuthToken__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./GetOAuthToken */ "./build.definitions/DocInfoExtraction/Rules/Documents/GetOAuthToken.js");
+
+async function GetSchemaName(clientAPI) {
+    try {
+        let selectSchema = clientAPI.getValue()[0].DisplayValue;
+       
+        let clientdata = clientAPI.evaluateTargetPathForAPI("#Page:Main").getClientData();
+        let data = clientdata.SchemaDetails;
+        
+        const filteredData = data.filter(item => item.name === selectSchema);
+       
+        let schemaId = filteredData[0].id;
+        let url = 'https://aiservices-trial-dox.cfapps.us10.hana.ondemand.com/document-information-extraction/v1/document/jobs'
+        let token = await (0,_GetOAuthToken__WEBPACK_IMPORTED_MODULE_0__["default"])(clientAPI);
+        
+        let schemaVersions = await setSchemaDetails(url, token, schemaId);
+        // alert(schemaVersions.length)
+        // let ctrl = clientAPI.evaluateTargetPath("#Page:DocUploadTab/#Control:SchemaVersionListPicker");
+        // ctrl.setPickerItems(schemaVersions)
+        // ctrl.setValue('')
+        // ctrl.redraw()
+    } catch (error) {
+        alert("Error: "+error)
+    }
+   
+
+}
+// function getSchemaVersion(srvUrl, token, schemaID) {
+//     try {
+//         let schemaVersions = [];
+//     return fetch(, {
+//         method: 'GET',
+//         headers: {
+//             'Content-Type': 'application/json',
+//             'Authorization': 'Bearer ' + token // if you need to pass a token
+//         }
+//     })
+//         .then(response => alert(JSON.stringify(response)))
+//         // .then(data => {
+//         //     alert(data)
+//         //     // for (var i = 0; i < data.schemas.length; i++) {
+//         //     //     schemaVersions.push(data.schemas[i].version)
+//         //     // }
+//         //     // return schemaVersions;
+//         // })
+//         .catch(error => {
+//             console.error('Error fetching data:', error);
+//         });
+//     } catch (error) {
+//         alert("Error In: "+error)
+//     }
+    
+// }
+
+
+function setSchemaDetails(srvUrl, token,schemaID) {
+
+    return fetch(`https://aiservices-trial-dox.cfapps.us10.hana.ondemand.com/document-information-extraction/v1/document/jobs/schemas/${schemaID}/versions?clientId=default`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token // if you need to pass a token
+        }
+    })
+        .then(response => {
+alert(JSON.stringify(response))
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+        });
+
+}
+
+/***/ }),
+
+/***/ "./build.definitions/DocInfoExtraction/Rules/Documents/OnAttachDocuments.js":
+/*!**********************************************************************************!*\
+  !*** ./build.definitions/DocInfoExtraction/Rules/Documents/OnAttachDocuments.js ***!
+  \**********************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ OnAttachDocuments)
+/* harmony export */ });
+
+function OnAttachDocuments(clientAPI) {
+    if (clientAPI.getValue().length > 0) {
+
+
+        let ctrl = clientAPI.evaluateTargetPath("#Page:-Current/#Control:renameBtn")
+        return ctrl.setVisible(true)
+
+    }
+}
+
+
+/***/ }),
+
+/***/ "./build.definitions/DocInfoExtraction/Rules/Documents/OnRenameFilePressed.js":
+/*!************************************************************************************!*\
+  !*** ./build.definitions/DocInfoExtraction/Rules/Documents/OnRenameFilePressed.js ***!
+  \************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ OnRenameFilePressed)
+/* harmony export */ });
+
+function OnRenameFilePressed(clientAPI) {
+    let ctrlFileName = clientAPI.evaluateTargetPath("#Page:-Current/#Control:RenameSimpleProp");
+    let ctrlBtn = clientAPI.evaluateTargetPath("#Page:-Current/#Control:renameBtn")
+    if (ctrlBtn.getTitle() == 'Save') {
+        ctrlFileName.setVisible(false);
+        ctrlBtn.setImage('sap-icon://edit');
+        ctrlBtn.setTitle('Rename File');
+        
+    } else {
+        ctrlFileName.setVisible(true);
+        ctrlBtn.setImage('sap-icon://save')
+        ctrlBtn.setTitle('Save')
+    
+    }
+
+
+}
+
+
+/***/ }),
+
+/***/ "./build.definitions/DocInfoExtraction/Rules/Documents/OnUploadDoc.js":
+/*!****************************************************************************!*\
+  !*** ./build.definitions/DocInfoExtraction/Rules/Documents/OnUploadDoc.js ***!
+  \****************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ OnUploadDoc)
+/* harmony export */ });
+/* harmony import */ var _GetOAuthToken__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./GetOAuthToken */ "./build.definitions/DocInfoExtraction/Rules/Documents/GetOAuthToken.js");
+/* harmony import */ var _Common_Navigation__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Common/Navigation */ "./build.definitions/DocInfoExtraction/Rules/Common/Navigation.js");
+
+
+async function OnUploadDoc(clientAPI) {
+
+
+    clientAPI.showActivityIndicator('Setting details...')
+    let clientData = clientAPI.getClientData();
+    let token = await (0,_GetOAuthToken__WEBPACK_IMPORTED_MODULE_0__["default"])(clientAPI);
+    let srvUrl = 'https://aiservices-trial-dox.cfapps.us10.hana.ondemand.com/document-information-extraction/v1';
+    let isSchemaDataLoaded = await setSchemaDetails(clientData, srvUrl, token)
+    //alert(clientData.SchemaDetails.length)
+    // let isDocTypeStored = await setDocType(clientData, srvUrl, token);
+    if (isSchemaDataLoaded == 'DONE') {
+
+        let transition = {
+            "Curve": "EaseIn",
+            "Name": "SlideTop"
+        }
+        clientAPI.dismissActivityIndicator();
+        return setTimeout(() => {
+            (0,_Common_Navigation__WEBPACK_IMPORTED_MODULE_1__["default"])(clientAPI, '/DocInfoExtraction/Pages/Documents/DocUploadTab.page', transition)
+        }, 1);
+
+
+    }
+    else {
+        clientAPI.dismissActivityIndicator();
+    }
+
+
+
+}
+
+
+
+function setSchemaDetails(clientData, srvUrl, token) {
+
+    return fetch(`${srvUrl}/schemas?clientId=default`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token // if you need to pass a token
+        }
+    })
+        .then(response => response.json())
+        .then(data => {
+            let SchemaData = data.schemas;
+            clientData.SchemaDetails = SchemaData
+            return 'DONE'
+
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+        });
+
+}
+
+
+/***/ }),
+
 /***/ "./build.definitions/DocInfoExtraction/Rules/Documents/TotalDocHeaderCount.js":
 /*!************************************************************************************!*\
   !*** ./build.definitions/DocInfoExtraction/Rules/Documents/TotalDocHeaderCount.js ***!
@@ -559,6 +862,57 @@ __webpack_require__.r(__webpack_exports__);
 function TotalDocHeaderCount(clientAPI) {
     let noDoc = (0,_Main_GetNoDoc__WEBPACK_IMPORTED_MODULE_0__["default"])(clientAPI);
     return `Documents: (${noDoc})`;
+}
+
+
+/***/ }),
+
+/***/ "./build.definitions/DocInfoExtraction/Rules/Documents/uploadDocument.js":
+/*!*******************************************************************************!*\
+  !*** ./build.definitions/DocInfoExtraction/Rules/Documents/uploadDocument.js ***!
+  \*******************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ uploadDocument)
+/* harmony export */ });
+function uploadDocument(context) {
+    const baseUrl = 'your_base_url_here'; // Replace with the actual base URL
+    const urlPathExtension = '/document-information-extraction/v1';
+    const urlEndpointPath = '/document/jobs';
+    const url = `${baseUrl}${urlPathExtension}${urlEndpointPath}`;
+
+    const file = context.binding.file; // Replace with the actual file object
+    // const options = {
+    //     candidateTemplateIds: 'your_template_ids_here', // Optional
+    //     clientId: 'default', // Required
+    //     customLabel: 'your_custom_label_here', // Optional
+    //     1documentType: 'your_document_type_here', // Optional
+    //     4templateId: 'your_template_id_here', // Optional
+    //     2schemaId: 'your_schema_id_here', // Optional
+    //     2schemaName: 'your_schema_name_here', // Optional
+    //     3schemaVersion: 'your_schema_version_here' // Optional
+    // };
+
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('options', JSON.stringify(options));
+
+    return fetch(url, {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Document uploaded successfully:', data);
+        return data;
+    })
+    .catch(error => {
+        console.error('Error uploading document:', error);
+        throw error;
+    });
 }
 
 
@@ -1124,6 +1478,7 @@ let docinfoextraction_actions_closemodalpage_complete_action = __webpack_require
 let docinfoextraction_actions_closepage_action = __webpack_require__(/*! ./DocInfoExtraction/Actions/ClosePage.action */ "./build.definitions/DocInfoExtraction/Actions/ClosePage.action")
 let docinfoextraction_actions_documents_getdoc_action = __webpack_require__(/*! ./DocInfoExtraction/Actions/Documents/GetDoc.action */ "./build.definitions/DocInfoExtraction/Actions/Documents/GetDoc.action")
 let docinfoextraction_actions_documents_navtodetails_action = __webpack_require__(/*! ./DocInfoExtraction/Actions/Documents/NavToDetails.action */ "./build.definitions/DocInfoExtraction/Actions/Documents/NavToDetails.action")
+let docinfoextraction_actions_documents_onuploaddocnav_action = __webpack_require__(/*! ./DocInfoExtraction/Actions/Documents/OnUploadDocNav.action */ "./build.definitions/DocInfoExtraction/Actions/Documents/OnUploadDocNav.action")
 let docinfoextraction_actions_documents_viewdoc_action = __webpack_require__(/*! ./DocInfoExtraction/Actions/Documents/ViewDoc.action */ "./build.definitions/DocInfoExtraction/Actions/Documents/ViewDoc.action")
 let docinfoextraction_actions_genericbannermessage_action = __webpack_require__(/*! ./DocInfoExtraction/Actions/GenericBannerMessage.action */ "./build.definitions/DocInfoExtraction/Actions/GenericBannerMessage.action")
 let docinfoextraction_actions_genericmessagebox_action = __webpack_require__(/*! ./DocInfoExtraction/Actions/GenericMessageBox.action */ "./build.definitions/DocInfoExtraction/Actions/GenericMessageBox.action")
@@ -1148,7 +1503,10 @@ let docinfoextraction_pages_application_support_page = __webpack_require__(/*! .
 let docinfoextraction_pages_application_useractivitylog_page = __webpack_require__(/*! ./DocInfoExtraction/Pages/Application/UserActivityLog.page */ "./build.definitions/DocInfoExtraction/Pages/Application/UserActivityLog.page")
 let docinfoextraction_pages_applicationlanding_page = __webpack_require__(/*! ./DocInfoExtraction/Pages/ApplicationLanding.page */ "./build.definitions/DocInfoExtraction/Pages/ApplicationLanding.page")
 let docinfoextraction_pages_documents_documentdetails_page = __webpack_require__(/*! ./DocInfoExtraction/Pages/Documents/DocumentDetails.page */ "./build.definitions/DocInfoExtraction/Pages/Documents/DocumentDetails.page")
+let docinfoextraction_pages_documents_documentfieldextraction_page = __webpack_require__(/*! ./DocInfoExtraction/Pages/Documents/DocumentFieldExtraction.page */ "./build.definitions/DocInfoExtraction/Pages/Documents/DocumentFieldExtraction.page")
 let docinfoextraction_pages_documents_documentlist_page = __webpack_require__(/*! ./DocInfoExtraction/Pages/Documents/DocumentList.page */ "./build.definitions/DocInfoExtraction/Pages/Documents/DocumentList.page")
+let docinfoextraction_pages_documents_documentupload_page = __webpack_require__(/*! ./DocInfoExtraction/Pages/Documents/DocumentUpload.page */ "./build.definitions/DocInfoExtraction/Pages/Documents/DocumentUpload.page")
+let docinfoextraction_pages_documents_docuploadtab_page = __webpack_require__(/*! ./DocInfoExtraction/Pages/Documents/DocUploadTab.page */ "./build.definitions/DocInfoExtraction/Pages/Documents/DocUploadTab.page")
 let docinfoextraction_pages_main_page = __webpack_require__(/*! ./DocInfoExtraction/Pages/Main.page */ "./build.definitions/DocInfoExtraction/Pages/Main.page")
 let docinfoextraction_pages_maintabpage_page = __webpack_require__(/*! ./DocInfoExtraction/Pages/MainTabPage.page */ "./build.definitions/DocInfoExtraction/Pages/MainTabPage.page")
 let docinfoextraction_pages_schemas_schemalist_page = __webpack_require__(/*! ./DocInfoExtraction/Pages/Schemas/SchemaList.page */ "./build.definitions/DocInfoExtraction/Pages/Schemas/SchemaList.page")
@@ -1161,12 +1519,19 @@ let docinfoextraction_rules_application_getclientversion_js = __webpack_require_
 let docinfoextraction_rules_application_onwillupdate_js = __webpack_require__(/*! ./DocInfoExtraction/Rules/Application/OnWillUpdate.js */ "./build.definitions/DocInfoExtraction/Rules/Application/OnWillUpdate.js")
 let docinfoextraction_rules_application_resetappsettingsandlogout_js = __webpack_require__(/*! ./DocInfoExtraction/Rules/Application/ResetAppSettingsAndLogout.js */ "./build.definitions/DocInfoExtraction/Rules/Application/ResetAppSettingsAndLogout.js")
 let docinfoextraction_rules_common_message_js = __webpack_require__(/*! ./DocInfoExtraction/Rules/Common/Message.js */ "./build.definitions/DocInfoExtraction/Rules/Common/Message.js")
+let docinfoextraction_rules_common_navigation_js = __webpack_require__(/*! ./DocInfoExtraction/Rules/Common/Navigation.js */ "./build.definitions/DocInfoExtraction/Rules/Common/Navigation.js")
+let docinfoextraction_rules_documents_doctypes_js = __webpack_require__(/*! ./DocInfoExtraction/Rules/Documents/DocTypes.js */ "./build.definitions/DocInfoExtraction/Rules/Documents/DocTypes.js")
 let docinfoextraction_rules_documents_docudetailspath_js = __webpack_require__(/*! ./DocInfoExtraction/Rules/Documents/DocuDetailsPath.js */ "./build.definitions/DocInfoExtraction/Rules/Documents/DocuDetailsPath.js")
 let docinfoextraction_rules_documents_fetchpdf_js = __webpack_require__(/*! ./DocInfoExtraction/Rules/Documents/FetchPDF.js */ "./build.definitions/DocInfoExtraction/Rules/Documents/FetchPDF.js")
 let docinfoextraction_rules_documents_getlineitemssubhead_js = __webpack_require__(/*! ./DocInfoExtraction/Rules/Documents/GetLineItemsSubHead.js */ "./build.definitions/DocInfoExtraction/Rules/Documents/GetLineItemsSubHead.js")
 let docinfoextraction_rules_documents_getlineitemtitle_js = __webpack_require__(/*! ./DocInfoExtraction/Rules/Documents/GetLineItemTitle.js */ "./build.definitions/DocInfoExtraction/Rules/Documents/GetLineItemTitle.js")
 let docinfoextraction_rules_documents_getoauthtoken_js = __webpack_require__(/*! ./DocInfoExtraction/Rules/Documents/GetOAuthToken.js */ "./build.definitions/DocInfoExtraction/Rules/Documents/GetOAuthToken.js")
+let docinfoextraction_rules_documents_getschemaname_js = __webpack_require__(/*! ./DocInfoExtraction/Rules/Documents/GetSchemaName.js */ "./build.definitions/DocInfoExtraction/Rules/Documents/GetSchemaName.js")
+let docinfoextraction_rules_documents_onattachdocuments_js = __webpack_require__(/*! ./DocInfoExtraction/Rules/Documents/OnAttachDocuments.js */ "./build.definitions/DocInfoExtraction/Rules/Documents/OnAttachDocuments.js")
+let docinfoextraction_rules_documents_onrenamefilepressed_js = __webpack_require__(/*! ./DocInfoExtraction/Rules/Documents/OnRenameFilePressed.js */ "./build.definitions/DocInfoExtraction/Rules/Documents/OnRenameFilePressed.js")
+let docinfoextraction_rules_documents_onuploaddoc_js = __webpack_require__(/*! ./DocInfoExtraction/Rules/Documents/OnUploadDoc.js */ "./build.definitions/DocInfoExtraction/Rules/Documents/OnUploadDoc.js")
 let docinfoextraction_rules_documents_totaldocheadercount_js = __webpack_require__(/*! ./DocInfoExtraction/Rules/Documents/TotalDocHeaderCount.js */ "./build.definitions/DocInfoExtraction/Rules/Documents/TotalDocHeaderCount.js")
+let docinfoextraction_rules_documents_uploaddocument_js = __webpack_require__(/*! ./DocInfoExtraction/Rules/Documents/uploadDocument.js */ "./build.definitions/DocInfoExtraction/Rules/Documents/uploadDocument.js")
 let docinfoextraction_rules_logging_loglevels_js = __webpack_require__(/*! ./DocInfoExtraction/Rules/Logging/LogLevels.js */ "./build.definitions/DocInfoExtraction/Rules/Logging/LogLevels.js")
 let docinfoextraction_rules_logging_settracecategories_js = __webpack_require__(/*! ./DocInfoExtraction/Rules/Logging/SetTraceCategories.js */ "./build.definitions/DocInfoExtraction/Rules/Logging/SetTraceCategories.js")
 let docinfoextraction_rules_logging_setuserloglevel_js = __webpack_require__(/*! ./DocInfoExtraction/Rules/Logging/SetUserLogLevel.js */ "./build.definitions/DocInfoExtraction/Rules/Logging/SetUserLogLevel.js")
@@ -1181,6 +1546,7 @@ let docinfoextraction_rules_main_gettotaldonedocuments_js = __webpack_require__(
 let docinfoextraction_rules_main_ondeletepressed_js = __webpack_require__(/*! ./DocInfoExtraction/Rules/Main/OnDeletePressed.js */ "./build.definitions/DocInfoExtraction/Rules/Main/OnDeletePressed.js")
 let docinfoextraction_rules_main_ondocumentpressed_js = __webpack_require__(/*! ./DocInfoExtraction/Rules/Main/OnDocumentPressed.js */ "./build.definitions/DocInfoExtraction/Rules/Main/OnDocumentPressed.js")
 let docinfoextraction_rules_main_onpulldownmain_js = __webpack_require__(/*! ./DocInfoExtraction/Rules/Main/OnPullDownMain.js */ "./build.definitions/DocInfoExtraction/Rules/Main/OnPullDownMain.js")
+let docinfoextraction_services_diesrv_service = __webpack_require__(/*! ./DocInfoExtraction/Services/DIESrv.service */ "./build.definitions/DocInfoExtraction/Services/DIESrv.service")
 let docinfoextraction_services_doc_info_extraction_service = __webpack_require__(/*! ./DocInfoExtraction/Services/doc_info_extraction.service */ "./build.definitions/DocInfoExtraction/Services/doc_info_extraction.service")
 let docinfoextraction_styles_styles_css = __webpack_require__(/*! ./DocInfoExtraction/Styles/Styles.css */ "./build.definitions/DocInfoExtraction/Styles/Styles.css")
 let docinfoextraction_styles_styles_less = __webpack_require__(/*! ./DocInfoExtraction/Styles/Styles.less */ "./build.definitions/DocInfoExtraction/Styles/Styles.less")
@@ -1209,6 +1575,7 @@ module.exports = {
 	docinfoextraction_actions_closepage_action : docinfoextraction_actions_closepage_action,
 	docinfoextraction_actions_documents_getdoc_action : docinfoextraction_actions_documents_getdoc_action,
 	docinfoextraction_actions_documents_navtodetails_action : docinfoextraction_actions_documents_navtodetails_action,
+	docinfoextraction_actions_documents_onuploaddocnav_action : docinfoextraction_actions_documents_onuploaddocnav_action,
 	docinfoextraction_actions_documents_viewdoc_action : docinfoextraction_actions_documents_viewdoc_action,
 	docinfoextraction_actions_genericbannermessage_action : docinfoextraction_actions_genericbannermessage_action,
 	docinfoextraction_actions_genericmessagebox_action : docinfoextraction_actions_genericmessagebox_action,
@@ -1233,7 +1600,10 @@ module.exports = {
 	docinfoextraction_pages_application_useractivitylog_page : docinfoextraction_pages_application_useractivitylog_page,
 	docinfoextraction_pages_applicationlanding_page : docinfoextraction_pages_applicationlanding_page,
 	docinfoextraction_pages_documents_documentdetails_page : docinfoextraction_pages_documents_documentdetails_page,
+	docinfoextraction_pages_documents_documentfieldextraction_page : docinfoextraction_pages_documents_documentfieldextraction_page,
 	docinfoextraction_pages_documents_documentlist_page : docinfoextraction_pages_documents_documentlist_page,
+	docinfoextraction_pages_documents_documentupload_page : docinfoextraction_pages_documents_documentupload_page,
+	docinfoextraction_pages_documents_docuploadtab_page : docinfoextraction_pages_documents_docuploadtab_page,
 	docinfoextraction_pages_main_page : docinfoextraction_pages_main_page,
 	docinfoextraction_pages_maintabpage_page : docinfoextraction_pages_maintabpage_page,
 	docinfoextraction_pages_schemas_schemalist_page : docinfoextraction_pages_schemas_schemalist_page,
@@ -1246,12 +1616,19 @@ module.exports = {
 	docinfoextraction_rules_application_onwillupdate_js : docinfoextraction_rules_application_onwillupdate_js,
 	docinfoextraction_rules_application_resetappsettingsandlogout_js : docinfoextraction_rules_application_resetappsettingsandlogout_js,
 	docinfoextraction_rules_common_message_js : docinfoextraction_rules_common_message_js,
+	docinfoextraction_rules_common_navigation_js : docinfoextraction_rules_common_navigation_js,
+	docinfoextraction_rules_documents_doctypes_js : docinfoextraction_rules_documents_doctypes_js,
 	docinfoextraction_rules_documents_docudetailspath_js : docinfoextraction_rules_documents_docudetailspath_js,
 	docinfoextraction_rules_documents_fetchpdf_js : docinfoextraction_rules_documents_fetchpdf_js,
 	docinfoextraction_rules_documents_getlineitemssubhead_js : docinfoextraction_rules_documents_getlineitemssubhead_js,
 	docinfoextraction_rules_documents_getlineitemtitle_js : docinfoextraction_rules_documents_getlineitemtitle_js,
 	docinfoextraction_rules_documents_getoauthtoken_js : docinfoextraction_rules_documents_getoauthtoken_js,
+	docinfoextraction_rules_documents_getschemaname_js : docinfoextraction_rules_documents_getschemaname_js,
+	docinfoextraction_rules_documents_onattachdocuments_js : docinfoextraction_rules_documents_onattachdocuments_js,
+	docinfoextraction_rules_documents_onrenamefilepressed_js : docinfoextraction_rules_documents_onrenamefilepressed_js,
+	docinfoextraction_rules_documents_onuploaddoc_js : docinfoextraction_rules_documents_onuploaddoc_js,
 	docinfoextraction_rules_documents_totaldocheadercount_js : docinfoextraction_rules_documents_totaldocheadercount_js,
+	docinfoextraction_rules_documents_uploaddocument_js : docinfoextraction_rules_documents_uploaddocument_js,
 	docinfoextraction_rules_logging_loglevels_js : docinfoextraction_rules_logging_loglevels_js,
 	docinfoextraction_rules_logging_settracecategories_js : docinfoextraction_rules_logging_settracecategories_js,
 	docinfoextraction_rules_logging_setuserloglevel_js : docinfoextraction_rules_logging_setuserloglevel_js,
@@ -1266,6 +1643,7 @@ module.exports = {
 	docinfoextraction_rules_main_ondeletepressed_js : docinfoextraction_rules_main_ondeletepressed_js,
 	docinfoextraction_rules_main_ondocumentpressed_js : docinfoextraction_rules_main_ondocumentpressed_js,
 	docinfoextraction_rules_main_onpulldownmain_js : docinfoextraction_rules_main_onpulldownmain_js,
+	docinfoextraction_services_diesrv_service : docinfoextraction_services_diesrv_service,
 	docinfoextraction_services_doc_info_extraction_service : docinfoextraction_services_doc_info_extraction_service,
 	docinfoextraction_styles_styles_css : docinfoextraction_styles_styles_css,
 	docinfoextraction_styles_styles_less : docinfoextraction_styles_styles_less,
@@ -1548,7 +1926,17 @@ module.exports = {"Controls":[{"FilterFeedbackBar":{"ShowAllFilters":true,"_Type
   \***************************************************************************/
 /***/ ((module) => {
 
-module.exports = {"Controls":[{"Header":{"Headline":"Infy-DIS","SubHeadline":"#Application/#AppData/UserId","Alignment":"Left","IconIsCircular":false,"DisableIconText":false},"Sections":[{"_Name":"SideDrawerSection0","Items":[{"Title":"Home","Image":"sap-icon://home","PageToOpen":"/DocInfoExtraction/Pages/Main.page","_Name":"SideDrawerSection0Item0","Visible":true,"TextAlignment":"Left"}],"Visible":true,"PreserveImageSpacing":true,"SeparatorEnabled":true},{"_Name":"SideDrawerSection1","Items":[{"Title":"Documents","Image":"sap-icon://documents","PageToOpen":"/DocInfoExtraction/Pages/Documents/DocumentList.page","_Name":"SideDrawerSection1Item0","Visible":true,"TextAlignment":"Left"},{"Title":"Schemas","Image":"sap-icon://write-new-document","PageToOpen":"/DocInfoExtraction/Pages/Schemas/SchemaList.page","_Name":"SideDrawerSection1Item1","Visible":true,"TextAlignment":"Left"},{"Title":"Templates","Image":"sap-icon://document-text","PageToOpen":"/DocInfoExtraction/Pages/Templates/TamplateLists.page","_Name":"SideDrawerSection1Item2","Visible":true,"TextAlignment":"Left"}],"Caption":"Quick Links","Visible":true,"PreserveImageSpacing":true,"SeparatorEnabled":true}],"_Type":"Control.Type.SideDrawer","_Name":"SideDrawer0","AlwaysShowDrawerButton":false,"ClearHistory":false}],"_Type":"Page","_Name":"ApplicationLanding","ActionBar":{"Items":[],"_Name":"ActionBar5","_Type":"Control.Type.ActionBar"}}
+module.exports = {"Controls":[{"Header":{"Headline":"Infy-DIS","SubHeadline":"#Application/#AppData/UserId","Alignment":"Left","IconIsCircular":false,"DisableIconText":false},"Sections":[{"_Name":"SideDrawerSection0","Items":[{"Title":"Home","Image":"sap-icon://home","PageToOpen":"/DocInfoExtraction/Pages/Main.page","_Name":"SideDrawerSection0Item0","Visible":true,"TextAlignment":"Left"}],"Visible":true,"PreserveImageSpacing":true,"SeparatorEnabled":true},{"_Name":"SideDrawerSection1","Items":[{"Title":"Documents","Image":"sap-icon://documents","PageToOpen":"/DocInfoExtraction/Pages/Documents/DocumentList.page","_Name":"SideDrawerSection1Item0","Visible":true,"TextAlignment":"Left"},{"Title":"Schemas","Image":"sap-icon://write-new-document","PageToOpen":"/DocInfoExtraction/Pages/Schemas/SchemaList.page","_Name":"SideDrawerSection1Item1","Visible":true,"TextAlignment":"Left"},{"Title":"Templates","Image":"sap-icon://document-text","PageToOpen":"/DocInfoExtraction/Pages/Templates/TamplateLists.page","_Name":"SideDrawerSection1Item2","Visible":true,"TextAlignment":"Left"}],"Caption":"Quick Links","Visible":true,"PreserveImageSpacing":true,"SeparatorEnabled":true},{"_Name":"SideDrawerSection2","Items":[{"Title":"Support","Image":"sap-icon://headset","OnPress":"/DocInfoExtraction/Actions/Application/NavToSupport.action","_Name":"SideDrawerSection2Item0","Visible":true,"TextAlignment":"Left"},{"Title":"Check for Updates","Image":"sap-icon://refresh","OnPress":"/DocInfoExtraction/Actions/Application/AppUpdateProgressBanner.action","_Name":"SideDrawerSection2Item1","Visible":true,"TextAlignment":"Left"},{"Title":"About","Image":"sap-icon://hint","OnPress":"/DocInfoExtraction/Actions/Application/NavToAbout.action","_Name":"SideDrawerSection2Item2","Visible":true,"TextAlignment":"Left"},{"Title":"Reset","Image":"sap-icon://reset","OnPress":"/DocInfoExtraction/Actions/Application/ResetMessage.action","_Name":"SideDrawerSection2Item3","Visible":true,"TextAlignment":"Left"}],"Caption":"Actions","Visible":true,"PreserveImageSpacing":true,"SeparatorEnabled":true}],"_Type":"Control.Type.SideDrawer","_Name":"SideDrawer0","AlwaysShowDrawerButton":false,"ClearHistory":false}],"_Type":"Page","_Name":"ApplicationLanding","ActionBar":{"Items":[],"_Name":"ActionBar8","_Type":"Control.Type.ActionBar"}}
+
+/***/ }),
+
+/***/ "./build.definitions/DocInfoExtraction/Pages/Documents/DocUploadTab.page":
+/*!*******************************************************************************!*\
+  !*** ./build.definitions/DocInfoExtraction/Pages/Documents/DocUploadTab.page ***!
+  \*******************************************************************************/
+/***/ ((module) => {
+
+module.exports = {"Controls":[{"FilterFeedbackBar":{"ShowAllFilters":false,"_Type":"Control.Type.FilterFeedbackBar"},"_Type":"Control.Type.SectionedTable","_Name":"SectionedTable0","Sections":[{"Separators":{"TopSectionSeparator":false,"BottomSectionSeparator":true,"HeaderSeparator":true,"FooterSeparator":true,"ControlSeparator":true},"Controls":[{"Value":["Invoice"],"_Type":"Control.Type.FormCell.ListPicker","_Name":"DocTypeListPicker","IsVisible":true,"Separator":true,"AllowMultipleSelection":false,"AllowEmptySelection":true,"Caption":"Document Type: ","DataPaging":{"ShowLoadingIndicator":false,"PageSize":50},"PickerPrompt":"Please select one single item","OnValueChange":"/DocInfoExtraction/Rules/Documents/DocTypes.js","IsSelectedSectionEnabled":false,"IsPickerDismissedOnSelection":true,"AllowDefaultValueIfOneItem":false,"IsEditable":true,"PickerItems":["Invoice","Payment Advice","Purchase Order","Custom"]},{"Value":["SAP_invoice_schema"],"_Type":"Control.Type.FormCell.ListPicker","_Name":"SchemaNameListPicker","IsVisible":true,"Separator":true,"AllowMultipleSelection":false,"AllowEmptySelection":true,"Caption":"Schema:","DataPaging":{"ShowLoadingIndicator":false,"PageSize":50},"PickerPrompt":"Please select one single item","OnValueChange":"/DocInfoExtraction/Rules/Documents/GetSchemaName.js","IsSelectedSectionEnabled":false,"IsPickerDismissedOnSelection":true,"AllowDefaultValueIfOneItem":false,"IsEditable":true,"PickerItems":["SAP_invoice_schema"]},{"_Type":"Control.Type.FormCell.ListPicker","_Name":"SchemaVersionListPicker","IsVisible":true,"Separator":true,"AllowMultipleSelection":false,"AllowEmptySelection":true,"Caption":"Schema Version:","DataPaging":{"ShowLoadingIndicator":false,"PageSize":50},"PickerPrompt":"Please select one single item","IsSelectedSectionEnabled":false,"IsPickerDismissedOnSelection":true,"AllowDefaultValueIfOneItem":false,"IsEditable":true,"PickerItems":["One","Two","Three"]},{"_Type":"Control.Type.FormCell.ListPicker","_Name":"TemplateListPicker","IsVisible":true,"Separator":true,"AllowMultipleSelection":true,"AllowEmptySelection":true,"Caption":"Template","DataPaging":{"ShowLoadingIndicator":false,"PageSize":50},"PickerPrompt":"Please select one single item","IsSelectedSectionEnabled":false,"IsPickerDismissedOnSelection":false,"IsSearchCancelledAfterSelection":false,"AllowDefaultValueIfOneItem":false,"IsEditable":true,"PickerItems":["One","Two","Three"]}],"Visible":true,"EmptySection":{"FooterVisible":false},"_Type":"Section.Type.FormCell","_Name":"SectionFormCell0"}]},{"_Type":"Control.Type.Tabs","_Name":"Tabs0","Items":[{"_Type":"Control.Type.TabItem","Caption":"TabItem2","Image":"sap-icon://add-document","PageToOpen":"/DocInfoExtraction/Pages/Documents/DocumentUpload.page","_Name":"TabItem0"},{"_Type":"Control.Type.TabItem","Caption":"TabItem2","Image":"sap-icon://document-text","PageToOpen":"/DocInfoExtraction/Pages/Documents/DocumentFieldExtraction.page","_Name":"TabItem1"}],"Position":"Bottom","TabStripType":"Normal","SwipeEnabled":true}],"_Type":"Page","_Name":"DocUploadTab","ActionBar":{"Items":[{"_Type":"Control.Type.ActionBarItem","_Name":"ActionBarItem0","Caption":"","Icon":"sap-icon://save","Position":"Right","IsIconCircular":false,"Visible":true}],"_Name":"ActionBar1","_Type":"Control.Type.ActionBar","Caption":"Select Document"}}
 
 /***/ }),
 
@@ -1562,6 +1950,16 @@ module.exports = {"Controls":[{"FilterFeedbackBar":{"ShowAllFilters":false,"_Typ
 
 /***/ }),
 
+/***/ "./build.definitions/DocInfoExtraction/Pages/Documents/DocumentFieldExtraction.page":
+/*!******************************************************************************************!*\
+  !*** ./build.definitions/DocInfoExtraction/Pages/Documents/DocumentFieldExtraction.page ***!
+  \******************************************************************************************/
+/***/ ((module) => {
+
+module.exports = {"_Type":"Page","_Name":"DocumentFieldExtraction","Controls":[{"_Name":"SectionedTable0","_Type":"Control.Type.SectionedTable"}]}
+
+/***/ }),
+
 /***/ "./build.definitions/DocInfoExtraction/Pages/Documents/DocumentList.page":
 /*!*******************************************************************************!*\
   !*** ./build.definitions/DocInfoExtraction/Pages/Documents/DocumentList.page ***!
@@ -1572,13 +1970,23 @@ module.exports = {"Controls":[{"FilterFeedbackBar":{"ShowAllFilters":false,"_Typ
 
 /***/ }),
 
+/***/ "./build.definitions/DocInfoExtraction/Pages/Documents/DocumentUpload.page":
+/*!*********************************************************************************!*\
+  !*** ./build.definitions/DocInfoExtraction/Pages/Documents/DocumentUpload.page ***!
+  \*********************************************************************************/
+/***/ ((module) => {
+
+module.exports = {"Controls":[{"FilterFeedbackBar":{"ShowAllFilters":false,"_Type":"Control.Type.FilterFeedbackBar"},"_Type":"Control.Type.SectionedTable","_Name":"SectionedTable0","Sections":[{"Separators":{"TopSectionSeparator":false,"BottomSectionSeparator":true,"HeaderSeparator":true,"FooterSeparator":true,"ControlSeparator":true},"Controls":[{"_Type":"Control.Type.FormCell.Attachment","_Name":"FormCellAttachment0","IsVisible":true,"Separator":false,"OnValueChange":"/DocInfoExtraction/Rules/Documents/OnAttachDocuments.js","AttachmentActionType":["AddPhoto","TakePhoto","SelectFile"]},{"_Type":"Control.Type.FormCell.Button","_Name":"renameBtn","IsVisible":false,"Separator":false,"Title":"Rename File","Alignment":"Center","ButtonType":"Secondary","Semantic":"Tint","Image":"sap-icon://edit","ImagePosition":"Leading","ImageSize":{"Height":20},"Enabled":true,"OnPress":"/DocInfoExtraction/Rules/Documents/OnRenameFilePressed.js"},{"_Type":"Control.Type.FormCell.SimpleProperty","_Name":"RenameSimpleProp","IsVisible":false,"Separator":true,"Enabled":true,"IsEditable":true}],"Layout":{"NumberOfColumns":1},"Visible":true,"EmptySection":{"FooterVisible":false},"_Type":"Section.Type.FormCell","_Name":"SectionFormCell0"}]}],"_Type":"Page","_Name":"DocumentUpload","ActionBar":{"Items":[],"_Name":"ActionBar2","_Type":"Control.Type.ActionBar","Caption":"Select Document"}}
+
+/***/ }),
+
 /***/ "./build.definitions/DocInfoExtraction/Pages/Main.page":
 /*!*************************************************************!*\
   !*** ./build.definitions/DocInfoExtraction/Pages/Main.page ***!
   \*************************************************************/
 /***/ ((module) => {
 
-module.exports = {"Controls":[{"FilterFeedbackBar":{"ShowAllFilters":false,"_Type":"Control.Type.FilterFeedbackBar"},"_Type":"Control.Type.SectionedTable","_Name":"SectionedTable0","Sections":[{"Separators":{"TopSectionSeparator":false,"BottomSectionSeparator":true,"HeaderSeparator":true,"FooterSeparator":true,"ControlSeparator":true},"KPIHeader":{"KPIItems":[{"Target":{"Service":"/DocInfoExtraction/Services/doc_info_extraction.service","Path":"/document/jobs","RequestProperties":{"Method":"GET","FetchCSRF":true}},"_Name":"KPIItem0","CaptionLabel":"Documents","MetricItems":[{"Value":"/DocInfoExtraction/Rules/Main/GetNoDoc.js","_Name":"KPIItem0MetricItem0"}],"ShowProgress":true,"Progress":"/DocInfoExtraction/Rules/Main/GetTotalDoneDocuments.js"},{"Target":{"Service":"/DocInfoExtraction/Services/doc_info_extraction.service","Path":"/templates?clientId=default","RequestProperties":{"Method":"GET","FetchCSRF":true}},"_Name":"KPIItem2","CaptionLabel":"Templates","MetricItems":[{"Value":"/DocInfoExtraction/Rules/Main/GetNoTemp.js","_Name":"KPIItem2MetricItem0"}],"ShowProgress":true,"Progress":"/DocInfoExtraction/Rules/Main/GetDoneTempCount.js"}]},"_Type":"Section.Type.KPIHeader","_Name":"SectionKPIHeader0","Visible":true},{"Separators":{"TopSectionSeparator":false,"BottomSectionSeparator":false,"HeaderSeparator":false,"FooterSeparator":false,"ControlSeparator":false},"_Type":"Section.Type.ObjectCardCollection","Target":{"Service":"/DocInfoExtraction/Services/doc_info_extraction.service","Path":"/document/jobs","OutputPath":"/results","RequestProperties":{"Method":"GET","FetchCSRF":true}},"_Name":"SectionObjectCardCollection0","Header":{"_Type":"SectionCommon.Type.Header","_Name":"SectionCommonTypeHeader0","AccessoryType":"None","UseTopPadding":false,"Caption":"Documents:"},"Visible":true,"EmptySection":{"Caption":"No Documents!","FooterVisible":false},"DataPaging":{"ShowLoadingIndicator":true,"LoadingIndicatorText":"Loading...","PageSize":50},"Card":{"Visible":true,"Title":"Type: {documentType}","Subhead":"{status}","Footnote":"$(D,{finished},'en-IN','',{format:'medium'})","DetailImage":"sap-icon://pdf-attachment","DetailImageIsCircular":false,"Description":"Bill Name: {fileName}","PrimaryAction":{"_Name":"Open","_Type":"ObjectCard.Type.ActionItem","OnPress":"/DocInfoExtraction/Actions/Documents/NavToDetails.action","Title":"Open","Visible":true},"SecondaryAction":{"_Type":"ObjectCard.Type.ActionItem","OnPress":"/DocInfoExtraction/Rules/Main/OnDeletePressed.js","Title":"Delete","Visible":true},"_Type":"ObjectCardCollection.Type.Card"},"Layout":{"LayoutType":"Vertical"}}]}],"PullDown":{"OnPulledDown":"/DocInfoExtraction/Rules/Main/OnPullDownMain.js"},"_Type":"Page","_Name":"Main","ActionBar":{"Items":[{"_Type":"Control.Type.ActionBarItem","_Name":"ActionBarItem0","Caption":"User Menu","Icon":"sap-icon://customer","Position":"Right","IsIconCircular":false,"Visible":true,"OnPress":"/DocInfoExtraction/Actions/Application/UserMenuPopover.action"}],"_Name":"ActionBar1","_Type":"Control.Type.ActionBar","Caption":"Home","Subhead":"Hello","PrefersLargeCaption":true}}
+module.exports = {"Controls":[{"FilterFeedbackBar":{"ShowAllFilters":false,"_Type":"Control.Type.FilterFeedbackBar"},"_Type":"Control.Type.SectionedTable","_Name":"SectionedTable0","Sections":[{"Separators":{"TopSectionSeparator":false,"BottomSectionSeparator":true,"HeaderSeparator":true,"FooterSeparator":true,"ControlSeparator":true},"KPIHeader":{"KPIItems":[{"Target":{"Service":"/DocInfoExtraction/Services/doc_info_extraction.service","Path":"/document/jobs","RequestProperties":{"Method":"GET","FetchCSRF":true}},"_Name":"KPIItem0","CaptionLabel":"Documents","MetricItems":[{"Value":"/DocInfoExtraction/Rules/Main/GetNoDoc.js","_Name":"KPIItem0MetricItem0"}],"ShowProgress":true,"Progress":"/DocInfoExtraction/Rules/Main/GetTotalDoneDocuments.js"},{"Target":{"Service":"/DocInfoExtraction/Services/doc_info_extraction.service","Path":"/templates?clientId=default","RequestProperties":{"Method":"GET","FetchCSRF":true}},"_Name":"KPIItem2","CaptionLabel":"Templates","MetricItems":[{"Value":"/DocInfoExtraction/Rules/Main/GetNoTemp.js","_Name":"KPIItem2MetricItem0"}],"ShowProgress":true,"Progress":"/DocInfoExtraction/Rules/Main/GetDoneTempCount.js"}]},"_Type":"Section.Type.KPIHeader","_Name":"SectionKPIHeader0","Visible":true},{"Separators":{"TopSectionSeparator":false,"BottomSectionSeparator":false,"HeaderSeparator":false,"FooterSeparator":false,"ControlSeparator":false},"_Type":"Section.Type.ObjectCardCollection","Target":{"Service":"/DocInfoExtraction/Services/doc_info_extraction.service","Path":"/document/jobs","OutputPath":"/results","RequestProperties":{"Method":"GET","FetchCSRF":true}},"_Name":"SectionObjectCardCollection0","Header":{"_Type":"SectionCommon.Type.Header","_Name":"SectionCommonTypeHeader0","AccessoryType":"None","UseTopPadding":false,"Caption":"Documents:"},"Visible":true,"EmptySection":{"Caption":"No Documents!","FooterVisible":false},"DataPaging":{"ShowLoadingIndicator":true,"LoadingIndicatorText":"Loading...","PageSize":50},"Card":{"Visible":true,"Title":"Type: {documentType}","Subhead":"{status}","Footnote":"$(D,{finished},'en-IN','',{format:'medium'})","DetailImage":"sap-icon://pdf-attachment","DetailImageIsCircular":false,"Description":"Bill Name: {fileName}","PrimaryAction":{"_Name":"Open","_Type":"ObjectCard.Type.ActionItem","OnPress":"/DocInfoExtraction/Actions/Documents/NavToDetails.action","Title":"Open","Visible":true},"SecondaryAction":{"_Type":"ObjectCard.Type.ActionItem","OnPress":"/DocInfoExtraction/Rules/Main/OnDeletePressed.js","Title":"Delete","Visible":true},"_Type":"ObjectCardCollection.Type.Card"},"Layout":{"LayoutType":"Vertical"}}]}],"PullDown":{"OnPulledDown":"/DocInfoExtraction/Rules/Main/OnPullDownMain.js"},"_Type":"Page","_Name":"Main","ActionBar":{"Items":[{"_Type":"Control.Type.ActionBarItem","_Name":"ActionBarItem0","Caption":"User Menu","Icon":"sap-icon://add","Position":"Right","IsIconCircular":false,"Visible":true,"OnPress":{"Name":"/DocInfoExtraction/Actions/Application/UserMenuPopover.action","Properties":{"Title":"Quick Actions","TextAlignment":"Center","IconPosition":"Leading","PopoverItems":[{"Title":"Upload Document","Icon":"sap-icon://upload","TextAlignment":"Center","OnPress":"/DocInfoExtraction/Rules/Documents/OnUploadDoc.js","Visible":true,"Enabled":true,"Styles.Title":"","Styles.Icon":""},{"Title":"Create Template","Icon":"sap-icon://create-form","TextAlignment":"Center","OnPress":"","Visible":true,"Enabled":true,"Styles.Title":"","Styles.Icon":""}]}}}],"_Name":"ActionBar1","_Type":"Control.Type.ActionBar","Caption":"Home","Subhead":"Hello","PrefersLargeCaption":true},"FioriToolbar":{"_Type":"Control.Type.FioriToolbar","_Name":"FioriToolbar0","Items":[{"_Type":"FioriToolbarItem.Type.Button","_Name":"ToolbarItem0","Visible":true,"Title":"FioriToolbarItem","OnPress":"/DocInfoExtraction/Rules/Documents/OnUploadDoc.js","Enabled":true,"ButtonType":"Text","Semantic":"Tint","ImagePosition":"Leading"}]}}
 
 /***/ }),
 
@@ -1618,7 +2026,7 @@ module.exports = {"Controls":[{"FilterFeedbackBar":{"ShowAllFilters":false,"_Typ
   \*******************************************/
 /***/ ((module) => {
 
-module.exports = {"MainPage":"$(PLT, '/DocInfoExtraction/Pages/ApplicationLanding.page', 'DocInfoExtraction/Pages/ApplicationLanding.page', '/DocInfoExtraction/Pages/Main.page')","OnWillUpdate":"/DocInfoExtraction/Rules/Application/OnWillUpdate.js","Styles":"/DocInfoExtraction/Styles/Styles.css","Localization":"/DocInfoExtraction/i18n/i18n.properties","_SchemaVersion":"24.11","_Name":"DocInfoExtraction","StyleSheets":{"Styles":{"css":"/DocInfoExtraction/Styles/Styles.light.css","ios":"/DocInfoExtraction/Styles/Styles.light.nss","android":"/DocInfoExtraction/Styles/Styles.light.json"}},"SDKStyles":{"ios":"/DocInfoExtraction/Styles/Styles.light.nss","android":"/DocInfoExtraction/Styles/Styles.light.json"}}
+module.exports = {"MainPage":"$(PLT, '/DocInfoExtraction/Pages/ApplicationLanding.page', 'DocInfoExtraction/Pages/ApplicationLanding.page', '/DocInfoExtraction/Pages/Main.page')","OnWillUpdate":"/DocInfoExtraction/Rules/Application/OnWillUpdate.js","Styles":"/DocInfoExtraction/Styles/Styles.css","Version":"1.0.0","Localization":"/DocInfoExtraction/i18n/i18n.properties","_SchemaVersion":"24.11","_Name":"DocInfoExtraction","StyleSheets":{"Styles":{"css":"/DocInfoExtraction/Styles/Styles.light.css","ios":"/DocInfoExtraction/Styles/Styles.light.nss","android":"/DocInfoExtraction/Styles/Styles.light.json"}},"SDKStyles":{"ios":"/DocInfoExtraction/Styles/Styles.light.nss","android":"/DocInfoExtraction/Styles/Styles.light.json"}}
 
 /***/ }),
 
@@ -1792,6 +2200,16 @@ module.exports = {"_Type":"Action.Type.Navigation","ActionResult":{"_Name":"NavT
 
 /***/ }),
 
+/***/ "./build.definitions/DocInfoExtraction/Actions/Documents/OnUploadDocNav.action":
+/*!*************************************************************************************!*\
+  !*** ./build.definitions/DocInfoExtraction/Actions/Documents/OnUploadDocNav.action ***!
+  \*************************************************************************************/
+/***/ ((module) => {
+
+module.exports = {"_Type":"Action.Type.Navigation","ActionResult":{"_Name":"OnUploadDocNav"},"ShowActivityIndicator":true,"PageToOpen":"/DocInfoExtraction/Pages/Documents/DocUploadTab.page","Transition":{"Curve":"EaseIn","Name":"SlideTop"}}
+
+/***/ }),
+
 /***/ "./build.definitions/DocInfoExtraction/Actions/Documents/ViewDoc.action":
 /*!******************************************************************************!*\
   !*** ./build.definitions/DocInfoExtraction/Actions/Documents/ViewDoc.action ***!
@@ -1828,7 +2246,7 @@ module.exports = {"_Type":"Action.Type.Message","ActionResult":{"_Name":"Generic
   \******************************************************************************/
 /***/ ((module) => {
 
-module.exports = {"_Type":"Action.Type.Navigation","ActionResult":{"_Name":"GenericNavigation"},"PageToOpen":"/DocInfoExtraction/Pages/Main.page"}
+module.exports = {"_Type":"Action.Type.Navigation","ActionResult":{"_Name":"GenericNavigation"},"ShowActivityIndicator":true,"PageToOpen":"/DocInfoExtraction/Pages/Main.page"}
 
 /***/ }),
 
@@ -1959,6 +2377,16 @@ module.exports = {"Value":"support@mycompany.com","_Type":"String"}
 /***/ ((module) => {
 
 module.exports = {"Value":"1-800-677-7271","_Type":"String"}
+
+/***/ }),
+
+/***/ "./build.definitions/DocInfoExtraction/Services/DIESrv.service":
+/*!*********************************************************************!*\
+  !*** ./build.definitions/DocInfoExtraction/Services/DIESrv.service ***!
+  \*********************************************************************/
+/***/ ((module) => {
+
+module.exports = {"DestinationName":"DIESrv","OfflineEnabled":true,"SourceType":"Mobile"}
 
 /***/ }),
 

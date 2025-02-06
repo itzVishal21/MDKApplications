@@ -33,7 +33,9 @@
 		"Destination": [
 			"com.infy.dms",
 			"doc-info-extraction",
-			"Token"
+			"Token",
+			"DIESrv",
+			"DIE_Srv"
 		],
 		"Type": "standard"
 	},

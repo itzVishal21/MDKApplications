@@ -1,0 +1,12 @@
+{
+	"_Type": "Action.Type.Navigation",
+	"ActionResult": {
+		"_Name": "OnUploadDocNav"
+	},
+	"ShowActivityIndicator": true,
+	"PageToOpen": "/DocInfoExtraction/Pages/Documents/DocUploadTab.page",
+	"Transition": {
+		"Curve": "EaseIn",
+		"Name": "SlideTop"
+	}
+}

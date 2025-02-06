@@ -141,11 +141,40 @@
 				"_Type": "Control.Type.ActionBarItem",
 				"_Name": "ActionBarItem0",
 				"Caption": "User Menu",
-				"Icon": "sap-icon://customer",
+				"Icon": "sap-icon://add",
 				"Position": "Right",
 				"IsIconCircular": false,
 				"Visible": true,
-				"OnPress": "/DocInfoExtraction/Actions/Application/UserMenuPopover.action"
+				"OnPress": {
+					"Name": "/DocInfoExtraction/Actions/Application/UserMenuPopover.action",
+					"Properties": {
+						"Title": "Quick Actions",
+						"TextAlignment": "Center",
+						"IconPosition": "Leading",
+						"PopoverItems": [
+							{
+								"Title": "Upload Document",
+								"Icon": "sap-icon://upload",
+								"TextAlignment": "Center",
+								"OnPress": "/DocInfoExtraction/Rules/Documents/OnUploadDoc.js",
+								"Visible": true,
+								"Enabled": true,
+								"Styles.Title": "",
+								"Styles.Icon": ""
+							},
+							{
+								"Title": "Create Template",
+								"Icon": "sap-icon://create-form",
+								"TextAlignment": "Center",
+								"OnPress": "",
+								"Visible": true,
+								"Enabled": true,
+								"Styles.Title": "",
+								"Styles.Icon": ""
+							}
+						]
+					}
+				}
 			}
 		],
 		"_Name": "ActionBar1",
@@ -153,5 +182,22 @@
 		"Caption": "Home",
 		"Subhead": "Hello",
 		"PrefersLargeCaption": true
+	},
+	"FioriToolbar": {
+		"_Type": "Control.Type.FioriToolbar",
+		"_Name": "FioriToolbar0",
+		"Items": [
+			{
+				"_Type": "FioriToolbarItem.Type.Button",
+				"_Name": "ToolbarItem0",
+				"Visible": true,
+				"Title": "FioriToolbarItem",
+				"OnPress": "/DocInfoExtraction/Rules/Documents/OnUploadDoc.js",
+				"Enabled": true,
+				"ButtonType": "Text",
+				"Semantic": "Tint",
+				"ImagePosition": "Leading"
+			}
+		]
 	}
 }
