@@ -3,4 +3,4 @@
 /.base/ # Used to store the MDK base project
 .vscode/ # Used to save user preference
 .project.json # Used to save last MDK deployment settings
-Rules/Documents/GetOAuthToken.js
+/DocInfoExtraction/Rules/Documents/GetOAuthToken.js
